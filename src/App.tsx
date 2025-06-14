@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
@@ -22,6 +21,9 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { Toaster } from "@/components/ui/toaster";
 import "./App.css";
+
+import ProjectsShowcase from "./pages/ProjectsShowcase";
+import ProjectStoryPage from "./pages/ProjectStoryPage";
 
 function App() {
   return (
@@ -64,6 +66,8 @@ function App() {
             <SettingsPage />
           </ProtectedRoute>
         } />
+        <Route path="/projects-gallery" element={<ProjectsShowcase />} />
+        <Route path="/projects-gallery/:projectId" element={<ProjectStoryPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />

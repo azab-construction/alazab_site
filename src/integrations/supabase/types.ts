@@ -853,6 +853,39 @@ export type Database = {
           },
         ]
       }
+      project_photos: {
+        Row: {
+          created_at: string | null
+          file_name: string
+          file_url: string
+          id: string
+          location: Json | null
+          project_code: string
+          uploaded_by: string | null
+          work_type: string
+        }
+        Insert: {
+          created_at?: string | null
+          file_name: string
+          file_url: string
+          id?: string
+          location?: Json | null
+          project_code: string
+          uploaded_by?: string | null
+          work_type: string
+        }
+        Update: {
+          created_at?: string | null
+          file_name?: string
+          file_url?: string
+          id?: string
+          location?: Json | null
+          project_code?: string
+          uploaded_by?: string | null
+          work_type?: string
+        }
+        Relationships: []
+      }
       project_progress: {
         Row: {
           completed_tasks: number | null
