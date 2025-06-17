@@ -22,7 +22,21 @@ import {
   Camera,
   Search,
   TrendingUp,
-  PlusCircle
+  PlusCircle,
+  Database,
+  Hammer,
+  UserCircle,
+  HardDrive,
+  Send,
+  DollarSign,
+  HeadphonesIcon,
+  BarChart3,
+  Newspaper,
+  Printer,
+  Palette,
+  Languages,
+  MessageCircle,
+  ExternalLink
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -41,6 +55,7 @@ interface SidebarItem {
   badge?: string;
   description?: string;
   comingSoon?: boolean;
+  external?: boolean;
 }
 
 interface AdvancedSidebarProps {
@@ -79,6 +94,30 @@ const mainSections: SidebarSection[] = [
   }
 ];
 
+const applicationsSections: SidebarSection[] = [
+  {
+    title: "تطبيقات الشركة",
+    expandable: true,
+    items: [
+      { title: "الأصول", href: "https://alazab.com/assets", icon: Database, description: "إدارة أصول الشركة", external: true },
+      { title: "منشئ المواقع", href: "https://alazab.com/builder", icon: Hammer, description: "أداة بناء المواقع", external: true },
+      { title: "إدارة العملاء", href: "https://alazab.com/crm", icon: UserCircle, description: "نظام إدارة علاقات العملاء", external: true },
+      { title: "التخزين السحابي", href: "https://alazab.com/drive", icon: HardDrive, description: "منصة التخزين والملفات", external: true },
+      { title: "خدمة البريد", href: "https://alazab.com/email_delivery_service", icon: Send, description: "خدمة توصيل البريد الإلكتروني", external: true },
+      { title: "ERPNext", href: "https://erpnext.alazab.com", icon: Building, description: "نظام تخطيط موارد المؤسسات", external: true, badge: "مميز" },
+      { title: "تقدير الأسعار", href: "https://alazab.com/erpnext_price_estimation", icon: DollarSign, description: "نظام تقدير أسعار ERPNext", external: true },
+      { title: "مكتب المساعدة", href: "https://alazab.com/helpdesk", icon: HeadphonesIcon, description: "نظام دعم العملاء", external: true },
+      { title: "الموارد البشرية", href: "https://alazab.com/hrms", icon: Users, description: "نظام إدارة الموارد البشرية", external: true },
+      { title: "التحليلات", href: "https://alazab.com/insights", icon: BarChart3, description: "تحليلات وإحصائيات متقدمة", external: true },
+      { title: "النشرة الإخبارية", href: "https://alazab.com/newsletter", icon: Newspaper, description: "إدارة النشرات الإخبارية", external: true },
+      { title: "مصمم الطباعة", href: "https://alazab.com/print_designer", icon: Printer, description: "أداة تصميم المطبوعات", external: true },
+      { title: "الاستوديو", href: "https://alazab.com/studio", icon: Palette, description: "استوديو التصميم والإبداع", external: true },
+      { title: "المترجم", href: "https://alazab.com/translator", icon: Languages, description: "خدمة الترجمة الآلية", external: true },
+      { title: "واتساب للأعمال", href: "https://alazab.com/waba_integration", icon: MessageCircle, description: "تكامل واتساب للأعمال", external: true },
+    ]
+  }
+];
+
 const futureSections: SidebarSection[] = [
   {
     title: "ميزات قادمة",
@@ -102,50 +141,73 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
     );
   };
 
-  const renderSidebarItem = (item: SidebarItem) => (
-    <Link
-      key={item.title}
-      to={item.href}
-      onClick={item.comingSoon ? undefined : onClose}
-      className={`group flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${
+  const renderSidebarItem = (item: SidebarItem) => {
+    const linkContent = (
+      <div className={`group flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${
         item.comingSoon 
           ? 'cursor-not-allowed opacity-60' 
           : 'hover:bg-construction-primary/10 hover:shadow-md'
-      }`}
-    >
-      <div className={`p-2 rounded-md ${
-        item.comingSoon 
-          ? 'bg-gray-100 text-gray-400' 
-          : 'bg-construction-primary/20 text-construction-primary group-hover:bg-construction-primary group-hover:text-white'
-      } transition-colors`}>
-        <item.icon className="w-4 h-4" />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <span className={`font-medium text-sm ${
-            item.comingSoon ? 'text-gray-400' : 'text-gray-900 group-hover:text-construction-primary'
-          }`}>
-            {item.title}
-          </span>
-          {item.badge && (
-            <Badge variant="secondary" className="text-xs bg-construction-accent text-white">
-              {item.badge}
-            </Badge>
-          )}
-          {item.comingSoon && (
-            <Badge variant="outline" className="text-xs">
-              قريباً
-            </Badge>
+      }`}>
+        <div className={`p-2 rounded-md ${
+          item.comingSoon 
+            ? 'bg-gray-100 text-gray-400' 
+            : 'bg-construction-primary/20 text-construction-primary group-hover:bg-construction-primary group-hover:text-white'
+        } transition-colors`}>
+          <item.icon className="w-4 h-4" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className={`font-medium text-sm ${
+              item.comingSoon ? 'text-gray-400' : 'text-gray-900 group-hover:text-construction-primary'
+            }`}>
+              {item.title}
+            </span>
+            {item.external && <ExternalLink className="w-3 h-3 text-gray-400" />}
+            {item.badge && (
+              <Badge variant="secondary" className="text-xs bg-construction-accent text-white">
+                {item.badge}
+              </Badge>
+            )}
+            {item.comingSoon && (
+              <Badge variant="outline" className="text-xs">
+                قريباً
+              </Badge>
+            )}
+          </div>
+          {item.description && (
+            <p className="text-xs text-gray-500 mt-1 group-hover:text-gray-600">
+              {item.description}
+            </p>
           )}
         </div>
-        {item.description && (
-          <p className="text-xs text-gray-500 mt-1 group-hover:text-gray-600">
-            {item.description}
-          </p>
-        )}
       </div>
-    </Link>
-  );
+    );
+
+    if (item.external) {
+      return (
+        <a
+          key={item.title}
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block"
+        >
+          {linkContent}
+        </a>
+      );
+    }
+
+    return (
+      <Link
+        key={item.title}
+        to={item.href}
+        onClick={item.comingSoon ? undefined : onClose}
+        className="block"
+      >
+        {linkContent}
+      </Link>
+    );
+  };
 
   const renderSection = (section: SidebarSection) => {
     const isExpanded = expandedSections.includes(section.title);
@@ -198,6 +260,11 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
         {/* Main Sections */}
         {mainSections.map(renderSection)}
+        
+        <Separator className="my-4" />
+        
+        {/* Applications Sections */}
+        {applicationsSections.map(renderSection)}
         
         <Separator className="my-4" />
         
