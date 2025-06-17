@@ -16,7 +16,7 @@ const Header: React.FC = () => {
   const navigationItems = [
     { name: 'الرئيسية', href: '/' },
     { name: 'خدماتنا', href: '/services' },
-    { name: 'مشاريعنا', href: '/projects' },
+    { name: 'مشاريعنا', href: '/projects-gallery' },
     { name: 'من نحن', href: '/about' },
     { name: 'الشات بوت', href: '/chatbot' },
     { name: 'اتصل بنا', href: '/contact' },
@@ -76,11 +76,11 @@ const Header: React.FC = () => {
             </Link>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu Button - Fixed */}
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-6 w-6" />
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-80">
