@@ -159,26 +159,30 @@ const Projects: React.FC = () => {
           </div>
         )}
         
-        {/* بحث وتصفية */}
-        <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
-          <div className="relative w-full md:w-64">
-            <Search className="absolute top-1/2 transform -translate-y-1/2 right-3 text-gray-400" size={18} />
-            <input 
-              type="text" 
-              placeholder="بحث عن مشروع..." 
-              className="w-full py-2 pr-10 pl-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-construction-primary"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+        {/* بحث وتصفية - تم إصلاح الترتيب */}
+        <div className="mb-8">
+          {/* البحث */}
+          <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-6">
+            <div className="relative w-full md:w-64">
+              <Search className="absolute top-1/2 transform -translate-y-1/2 right-3 text-gray-400" size={18} />
+              <input 
+                type="text" 
+                placeholder="بحث عن مشروع..." 
+                className="w-full py-2 pr-10 pl-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-construction-primary"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
           
+          {/* أزرار التصفية */}
           <Tabs 
             defaultValue="جميع المشاريع" 
             value={activeCategory}
             onValueChange={setActiveCategory}
-            className="w-full md:w-auto"
+            className="w-full"
           >
-            <TabsList className="bg-gray-100 p-1 flex flex-wrap justify-center">
+            <TabsList className="bg-gray-100 p-1 flex flex-wrap justify-center mb-8">
               {projectCategories.map((category) => (
                 <TabsTrigger 
                   key={category}

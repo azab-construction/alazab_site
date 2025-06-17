@@ -8,10 +8,19 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { AdvancedSidebar } from './layout/AdvancedSidebar';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   const navigationItems = [
     { name: 'الرئيسية', href: '/' },
@@ -62,21 +71,44 @@ const Header: React.FC = () => {
             ))}
           </nav>
 
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link to="/maintenance-request">
-              <Button className="bg-construction-primary hover:bg-construction-dark text-white">
-                طلب صيانة
-              </Button>
-            </Link>
-            <Link to="/auth">
-              <Button variant="outline" className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white">
-                تسجيل الدخول
-              </Button>
-            </Link>
+          {/* CTA Buttons and Sidebar Toggle */}
+          <div className="flex items-center gap-4">
+            {/* Advanced Sidebar Toggle */}
+            {isMobile ? (
+              <Drawer open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                <DrawerTrigger asChild>
+                  <Button variant="outline" size="icon" className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent className="h-[85vh]">
+                  <AdvancedSidebar onClose={() => setIsSidebarOpen(false)} />
+                </DrawerContent>
+              </Drawer>
+            ) : (
+              <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon" className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-80 p-0">
+                  <AdvancedSidebar onClose={() => setIsSidebarOpen(false)} />
+                </SheetContent>
+              </Sheet>
+            )}
+
+            {/* Login Button */}
+            <div className="hidden md:flex">
+              <Link to="/auth">
+                <Button variant="outline" className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white">
+                  تسجيل الدخول
+                </Button>
+              </Link>
+            </div>
           </div>
 
-          {/* Mobile Menu Button - Fixed */}
+          {/* Mobile Menu Button */}
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
