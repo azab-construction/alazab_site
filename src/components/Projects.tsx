@@ -120,37 +120,80 @@ const Projects: React.FC = () => {
         <h2 className="section-title">مشاريعنا</h2>
         <p className="section-subtitle">تصفح أحدث وأهم مشاريعنا المنفذة</p>
         
+        {/* بحث وتصفية - تم نقلها إلى الأعلى */}
+        <div className="mb-12">
+          {/* البحث وأزرار التصفية في صف واحد */}
+          <div className="flex flex-col lg:flex-row gap-6 justify-between items-start lg:items-center mb-8">
+            {/* البحث */}
+            <div className="relative w-full lg:w-80">
+              <Search className="absolute top-1/2 transform -translate-y-1/2 right-3 text-gray-400" size={18} />
+              <input 
+                type="text" 
+                placeholder="بحث عن مشروع..." 
+                className="w-full py-3 pr-10 pl-4 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-construction-primary focus:border-construction-primary transition-all"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            
+            {/* أزرار التصفية */}
+            <div className="w-full lg:flex-1 lg:mr-6">
+              <Tabs 
+                defaultValue="جميع المشاريع" 
+                value={activeCategory}
+                onValueChange={setActiveCategory}
+                className="w-full"
+              >
+                <TabsList className="bg-gray-100 p-1 flex flex-wrap justify-center lg:justify-end w-full">
+                  {projectCategories.map((category) => (
+                    <TabsTrigger 
+                      key={category}
+                      value={category}
+                      className="px-4 py-2 text-sm whitespace-nowrap data-[state=active]:bg-construction-primary data-[state=active]:text-white transition-all hover:bg-construction-primary/10"
+                    >
+                      {category}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
+            </div>
+          </div>
+        </div>
+        
         {/* مشاريع مميزة */}
         {!searchTerm && activeCategory === "جميع المشاريع" && (
           <div className="mb-16">
-            <h3 className="text-xl font-bold mb-8 text-construction-primary">مشاريع مميزة</h3>
+            <h3 className="text-2xl font-bold mb-8 text-construction-primary flex items-center gap-2">
+              <span className="w-1 h-8 bg-construction-accent rounded-full"></span>
+              مشاريع مميزة
+            </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {projects
                 .filter(project => project.featured)
                 .map(project => (
-                  <div key={`featured-${project.id}`} className="group relative overflow-hidden rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                  <div key={`featured-${project.id}`} className="group relative overflow-hidden rounded-xl shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10"></div>
                     <img 
                       src={project.image} 
                       alt={project.title} 
-                      className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 z-20 flex flex-col justify-end p-8 text-white">
-                      <div className="bg-construction-accent/80 backdrop-blur-sm text-white text-xs py-1 px-3 rounded-full absolute top-6 right-6">
+                      <div className="bg-construction-accent/90 backdrop-blur-sm text-white text-xs py-2 px-4 rounded-full absolute top-6 right-6 font-medium">
                         {project.category}
                       </div>
-                      <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
-                      <div className="flex items-center gap-2 mb-2">
-                        <MapPin size={16} />
-                        <span className="text-sm">{project.location}</span>
+                      <h3 className="text-3xl font-bold mb-3">{project.title}</h3>
+                      <div className="flex items-center gap-2 mb-3">
+                        <MapPin size={18} />
+                        <span className="text-lg">{project.location}</span>
                       </div>
-                      <div className="flex items-center gap-3 mb-4">
-                        <span className="text-sm bg-white/20 backdrop-blur-sm px-2 py-1 rounded">سنة: {project.year}</span>
-                        <span className="text-sm bg-white/20 backdrop-blur-sm px-2 py-1 rounded">العميل: {project.client}</span>
+                      <div className="flex items-center gap-4 mb-6">
+                        <span className="text-sm bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg">سنة: {project.year}</span>
+                        <span className="text-sm bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg">العميل: {project.client}</span>
                       </div>
-                      <Link to={`/projects-gallery/${project.id}`} className="flex items-center gap-2 bg-white text-construction-primary font-bold py-2 px-4 rounded-md transition hover:bg-construction-accent hover:text-white self-start">
+                      <Link to={`/projects-gallery/${project.id}`} className="flex items-center gap-2 bg-white text-construction-primary font-bold py-3 px-6 rounded-lg transition-all hover:bg-construction-accent hover:text-white self-start group-hover:scale-105">
                         تفاصيل المشروع
-                        <ArrowLeft size={16} />
+                        <ArrowLeft size={18} />
                       </Link>
                     </div>
                   </div>
@@ -159,91 +202,79 @@ const Projects: React.FC = () => {
           </div>
         )}
         
-        {/* بحث وتصفية - تم إصلاح الترتيب */}
-        <div className="mb-8">
-          {/* البحث */}
-          <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-6">
-            <div className="relative w-full md:w-64">
-              <Search className="absolute top-1/2 transform -translate-y-1/2 right-3 text-gray-400" size={18} />
-              <input 
-                type="text" 
-                placeholder="بحث عن مشروع..." 
-                className="w-full py-2 pr-10 pl-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-construction-primary"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-          </div>
-          
-          {/* أزرار التصفية */}
-          <Tabs 
-            defaultValue="جميع المشاريع" 
-            value={activeCategory}
-            onValueChange={setActiveCategory}
-            className="w-full"
-          >
-            <TabsList className="bg-gray-100 p-1 flex flex-wrap justify-center mb-8">
-              {projectCategories.map((category) => (
-                <TabsTrigger 
-                  key={category}
-                  value={category}
-                  className="px-3 py-1 text-sm data-[state=active]:bg-construction-primary data-[state=active]:text-white"
-                >
-                  {category}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-        </div>
-        
         {/* عرض المشاريع */}
         <div className="mt-8">
           {filteredProjects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProjects.map((project, index) => (
-                <div 
-                  key={project.id} 
-                  className="project-card group relative overflow-hidden rounded-lg shadow-md opacity-0 translate-y-8 transition-all duration-500"
-                >
-                  <Link to={`/projects-gallery/${project.id}`}>
-                    <img 
-                      src={project.image} 
-                      alt={project.title} 
-                      className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
-                      <h3 className="text-white text-lg font-bold mb-1 group-hover:text-construction-accent transition-colors">{project.title}</h3>
-                      <div className="flex items-center gap-1 text-gray-300">
-                        <MapPin size={14} />
-                        <p className="text-sm">{project.location}</p>
-                      </div>
-                      <div className="bg-construction-accent text-white text-xs py-1 px-2 rounded absolute top-4 left-4">
-                        {project.category}
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-10 bg-gray-50 rounded-lg">
-              <div className="text-gray-500 mb-2">
-                <Search size={40} className="mx-auto mb-4 text-gray-400" />
-                <p className="text-lg font-medium">لم يتم العثور على مشاريع مطابقة</p>
+            <>
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-xl font-bold text-construction-primary">
+                  {searchTerm ? `نتائج البحث عن: "${searchTerm}"` : 
+                   activeCategory === "جميع المشاريع" ? "جميع المشاريع" : activeCategory}
+                </h3>
+                <span className="text-gray-500 text-sm">
+                  {filteredProjects.length} مشروع
+                </span>
               </div>
-              <p className="text-gray-400 text-sm">
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredProjects.map((project, index) => (
+                  <div 
+                    key={project.id} 
+                    className="project-card group relative overflow-hidden rounded-xl shadow-md opacity-0 translate-y-8 transition-all duration-500 hover:shadow-xl"
+                  >
+                    <Link to={`/projects-gallery/${project.id}`}>
+                      <img 
+                        src={project.image} 
+                        alt={project.title} 
+                        className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
+                        <h3 className="text-white text-xl font-bold mb-2 group-hover:text-construction-accent transition-colors">{project.title}</h3>
+                        <div className="flex items-center gap-2 text-gray-300 mb-2">
+                          <MapPin size={16} />
+                          <p className="text-sm">{project.location}</p>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="bg-construction-accent text-white text-xs py-1 px-3 rounded-full font-medium">
+                            {project.category}
+                          </div>
+                          <span className="text-white/80 text-xs">{project.year}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-16 bg-gray-50 rounded-xl">
+              <div className="text-gray-500 mb-4">
+                <Search size={60} className="mx-auto mb-6 text-gray-400" />
+                <p className="text-xl font-medium">لم يتم العثور على مشاريع مطابقة</p>
+              </div>
+              <p className="text-gray-400 text-lg mb-6">
                 حاول استخدام كلمات بحث مختلفة أو تصفية أخرى
               </p>
+              <Button 
+                onClick={() => {
+                  setSearchTerm("");
+                  setActiveCategory("جميع المشاريع");
+                }}
+                variant="outline"
+                className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white"
+              >
+                إعادة تعيين البحث
+              </Button>
             </div>
           )}
         </div>
         
         {filteredProjects.length > 0 && (
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <Link to="/projects-gallery">
-              <Button className="bg-construction-primary hover:bg-construction-dark text-white">
+              <Button className="bg-construction-primary hover:bg-construction-dark text-white py-3 px-8 text-lg">
                 عرض جميع المشاريع
-                <ArrowLeft className="mr-2" size={16} />
+                <ArrowLeft className="mr-2" size={18} />
               </Button>
             </Link>
           </div>
