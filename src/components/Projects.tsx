@@ -1,9 +1,10 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Search, MapPin, ArrowLeft } from "lucide-react";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 const projectCategories = [
   "جميع المشاريع",
@@ -76,43 +77,56 @@ const Projects: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("جميع المشاريع");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredProjects = projects.filter(project => {
-    const matchesCategory = activeCategory === "جميع المشاريع" || project.category === activeCategory;
-    const matchesSearch = project.title.includes(searchTerm) || 
-                          project.location.includes(searchTerm) || 
-                          project.category.includes(searchTerm);
-    return matchesCategory && (searchTerm === "" || matchesSearch);
-  });
-  
-  // تأثيرات الظهور عند التمرير
-  useEffect(() => {
-    const handleScroll = () => {
-      const elements = document.querySelectorAll('.project-card');
+  // استخدام useMemo لتحسين الأداء
+  const filteredProjects = useMemo(() => {
+    return projects.filter(project => {
+      const matchesCategory = activeCategory === "جميع المشاريع" || project.category === activeCategory;
+      const matchesSearch = project.title.includes(searchTerm) || 
+                            project.location.includes(searchTerm) || 
+                            project.category.includes(searchTerm);
+      return matchesCategory && (searchTerm === "" || matchesSearch);
+    });
+  }, [activeCategory, searchTerm]);
+
+  // استخدام useCallback لتحسين الأداء
+  const handleScroll = useCallback(() => {
+    const elements = document.querySelectorAll('.project-card');
+    
+    elements.forEach((element, index) => {
+      const position = element.getBoundingClientRect();
       
-      elements.forEach((element, index) => {
-        const position = element.getBoundingClientRect();
-        
-        // التحقق من وجود العنصر في نطاق العرض
-        if (position.top < window.innerHeight - 100) {
-          setTimeout(() => {
-            element.classList.add('animated');
-          }, index * 100); // تأخير تدريجي لكل بطاقة
-        }
-      });
+      if (position.top < window.innerHeight - 100) {
+        setTimeout(() => {
+          element.classList.add('animated');
+        }, index * 100);
+      }
+    });
+  }, []);
+  
+  // تحسين useEffect
+  useEffect(() => {
+    // فحص أولي مع تأخير قصير
+    const initialTimeout = setTimeout(handleScroll, 300);
+    
+    // إضافة مستمع للتمرير مع throttling
+    let ticking = false;
+    const throttledScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     
-    // فحص أولي
-    setTimeout(() => {
-      handleScroll();
-    }, 300);
-    
-    // إضافة مستمع للتمرير
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', throttledScroll, { passive: true });
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(initialTimeout);
+      window.removeEventListener('scroll', throttledScroll);
     };
-  }, [filteredProjects]);
+  }, [handleScroll]);
 
   return (
     <section id="projects" className="section bg-white">
@@ -120,9 +134,8 @@ const Projects: React.FC = () => {
         <h2 className="section-title">مشاريعنا</h2>
         <p className="section-subtitle">تصفح أحدث وأهم مشاريعنا المنفذة</p>
         
-        {/* بحث وتصفية - تم نقلها إلى الأعلى */}
+        {/* بحث وتصفية */}
         <div className="mb-12">
-          {/* البحث وأزرار التصفية في صف واحد */}
           <div className="flex flex-col lg:flex-row gap-6 justify-between items-start lg:items-center mb-8">
             {/* البحث */}
             <div className="relative w-full lg:w-80">
@@ -133,6 +146,7 @@ const Projects: React.FC = () => {
                 className="w-full py-3 pr-10 pl-4 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-construction-primary focus:border-construction-primary transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                aria-label="بحث في المشاريع"
               />
             </div>
             
@@ -171,9 +185,9 @@ const Projects: React.FC = () => {
               {projects
                 .filter(project => project.featured)
                 .map(project => (
-                  <div key={`featured-${project.id}`} className="group relative overflow-hidden rounded-xl shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                  <article key={`featured-${project.id}`} className="group relative overflow-hidden rounded-xl shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10"></div>
-                    <img 
+                    <LazyImage 
                       src={project.image} 
                       alt={project.title} 
                       className="w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-110"
@@ -184,19 +198,23 @@ const Projects: React.FC = () => {
                       </div>
                       <h3 className="text-3xl font-bold mb-3">{project.title}</h3>
                       <div className="flex items-center gap-2 mb-3">
-                        <MapPin size={18} />
+                        <MapPin size={18} aria-hidden="true" />
                         <span className="text-lg">{project.location}</span>
                       </div>
                       <div className="flex items-center gap-4 mb-6">
                         <span className="text-sm bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg">سنة: {project.year}</span>
                         <span className="text-sm bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg">العميل: {project.client}</span>
                       </div>
-                      <Link to={`/projects-gallery/${project.id}`} className="flex items-center gap-2 bg-white text-construction-primary font-bold py-3 px-6 rounded-lg transition-all hover:bg-construction-accent hover:text-white self-start group-hover:scale-105">
+                      <Link 
+                        to={`/projects-gallery/${project.id}`} 
+                        className="flex items-center gap-2 bg-white text-construction-primary font-bold py-3 px-6 rounded-lg transition-all hover:bg-construction-accent hover:text-white self-start group-hover:scale-105"
+                        aria-label={`عرض تفاصيل مشروع ${project.title}`}
+                      >
                         تفاصيل المشروع
-                        <ArrowLeft size={18} />
+                        <ArrowLeft size={18} aria-hidden="true" />
                       </Link>
                     </div>
-                  </div>
+                  </article>
                 ))}
             </div>
           </div>
@@ -211,19 +229,23 @@ const Projects: React.FC = () => {
                   {searchTerm ? `نتائج البحث عن: "${searchTerm}"` : 
                    activeCategory === "جميع المشاريع" ? "جميع المشاريع" : activeCategory}
                 </h3>
-                <span className="text-gray-500 text-sm">
+                <span className="text-gray-500 text-sm" aria-live="polite">
                   {filteredProjects.length} مشروع
                 </span>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredProjects.map((project, index) => (
-                  <div 
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list">
+                {filteredProjects.map((project) => (
+                  <article 
                     key={project.id} 
                     className="project-card group relative overflow-hidden rounded-xl shadow-md opacity-0 translate-y-8 transition-all duration-500 hover:shadow-xl"
+                    role="listitem"
                   >
-                    <Link to={`/projects-gallery/${project.id}`}>
-                      <img 
+                    <Link 
+                      to={`/projects-gallery/${project.id}`}
+                      aria-label={`عرض تفاصيل مشروع ${project.title}`}
+                    >
+                      <LazyImage 
                         src={project.image} 
                         alt={project.title} 
                         className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
@@ -231,7 +253,7 @@ const Projects: React.FC = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
                         <h3 className="text-white text-xl font-bold mb-2 group-hover:text-construction-accent transition-colors">{project.title}</h3>
                         <div className="flex items-center gap-2 text-gray-300 mb-2">
-                          <MapPin size={16} />
+                          <MapPin size={16} aria-hidden="true" />
                           <p className="text-sm">{project.location}</p>
                         </div>
                         <div className="flex items-center justify-between">
@@ -242,14 +264,14 @@ const Projects: React.FC = () => {
                         </div>
                       </div>
                     </Link>
-                  </div>
+                  </article>
                 ))}
               </div>
             </>
           ) : (
-            <div className="text-center py-16 bg-gray-50 rounded-xl">
+            <div className="text-center py-16 bg-gray-50 rounded-xl" role="alert">
               <div className="text-gray-500 mb-4">
-                <Search size={60} className="mx-auto mb-6 text-gray-400" />
+                <Search size={60} className="mx-auto mb-6 text-gray-400" aria-hidden="true" />
                 <p className="text-xl font-medium">لم يتم العثور على مشاريع مطابقة</p>
               </div>
               <p className="text-gray-400 text-lg mb-6">
@@ -274,7 +296,7 @@ const Projects: React.FC = () => {
             <Link to="/projects-gallery">
               <Button className="bg-construction-primary hover:bg-construction-dark text-white py-3 px-8 text-lg">
                 عرض جميع المشاريع
-                <ArrowLeft className="mr-2" size={18} />
+                <ArrowLeft className="mr-2" size={18} aria-hidden="true" />
               </Button>
             </Link>
           </div>

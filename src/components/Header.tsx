@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Wrench, MessageSquare } from 'lucide-react';
+import { Menu, Wrench, MessageSquare } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -39,13 +39,17 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-md fixed top-0 w-full z-50">
+    <header className="bg-white shadow-md fixed top-0 w-full z-50" role="banner">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
+          <Link 
+            to="/" 
+            className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-construction-primary rounded-lg p-1"
+            aria-label="العودة للصفحة الرئيسية - شركة العزب للمقاولات العامة"
+          >
             <div className="w-10 h-10 bg-construction-primary rounded-lg flex items-center justify-center">
-              <Wrench className="w-6 h-6 text-white" />
+              <Wrench className="w-6 h-6 text-white" aria-hidden="true" />
             </div>
             <div className="hidden md:block">
               <h1 className="text-xl font-bold text-construction-primary">شركة العزب</h1>
@@ -54,18 +58,19 @@ const Header: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="التنقل الرئيسي">
             {navigationItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-base font-medium transition-colors hover:text-construction-primary ${
+                className={`text-base font-medium transition-colors hover:text-construction-primary focus:outline-none focus:ring-2 focus:ring-construction-primary rounded px-2 py-1 ${
                   isActive(item.href) 
                     ? 'text-construction-primary border-b-2 border-construction-primary pb-1' 
                     : 'text-gray-700'
                 }`}
+                aria-current={isActive(item.href) ? 'page' : undefined}
               >
-                {item.name === 'الشات بوت' && <MessageSquare className="w-4 h-4 inline ml-1" />}
+                {item.name === 'الشات بوت' && <MessageSquare className="w-4 h-4 inline ml-1" aria-hidden="true" />}
                 {item.name}
               </Link>
             ))}
@@ -77,8 +82,13 @@ const Header: React.FC = () => {
             {isMobile ? (
               <Drawer open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
                 <DrawerTrigger asChild>
-                  <Button variant="outline" size="icon" className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white">
-                    <Menu className="h-5 w-5" />
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white"
+                    aria-label="فتح القائمة الجانبية"
+                  >
+                    <Menu className="h-5 w-5" aria-hidden="true" />
                   </Button>
                 </DrawerTrigger>
                 <DrawerContent className="h-[85vh]">
@@ -88,8 +98,13 @@ const Header: React.FC = () => {
             ) : (
               <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="outline" size="icon" className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white">
-                    <Menu className="h-5 w-5" />
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white"
+                    aria-label="فتح القائمة الجانبية"
+                  >
+                    <Menu className="h-5 w-5" aria-hidden="true" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-80 p-0">
@@ -101,7 +116,10 @@ const Header: React.FC = () => {
             {/* Login Button */}
             <div className="hidden md:flex">
               <Link to="/auth">
-                <Button variant="outline" className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white">
+                <Button 
+                  variant="outline" 
+                  className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white focus:ring-2 focus:ring-construction-primary"
+                >
                   تسجيل الدخول
                 </Button>
               </Link>
@@ -111,24 +129,30 @@ const Header: React.FC = () => {
           {/* Mobile Menu Button */}
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="md:hidden"
+                aria-label={isMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+              >
+                <Menu className="h-6 w-6" aria-hidden="true" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-80">
-              <div className="flex flex-col gap-6 mt-6">
+              <nav className="flex flex-col gap-6 mt-6" role="navigation" aria-label="التنقل المتنقل">
                 {navigationItems.map((item) => (
                   <Link
                     key={item.name}
                     to={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-lg font-medium transition-colors hover:text-construction-primary ${
+                    className={`text-lg font-medium transition-colors hover:text-construction-primary focus:outline-none focus:ring-2 focus:ring-construction-primary rounded px-2 py-1 ${
                       isActive(item.href) 
                         ? 'text-construction-primary' 
                         : 'text-gray-700'
                     }`}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
                   >
-                    {item.name === 'الشات بوت' && <MessageSquare className="w-4 h-4 inline ml-1" />}
+                    {item.name === 'الشات بوت' && <MessageSquare className="w-4 h-4 inline ml-1" aria-hidden="true" />}
                     {item.name}
                   </Link>
                 ))}
@@ -145,7 +169,7 @@ const Header: React.FC = () => {
                     </Button>
                   </Link>
                 </div>
-              </div>
+              </nav>
             </SheetContent>
           </Sheet>
         </div>
