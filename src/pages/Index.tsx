@@ -10,7 +10,7 @@ import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+// import { Helmet } from "react-helmet";
 
 const Index: React.FC = () => {
   // تحسين scroll animation handler
