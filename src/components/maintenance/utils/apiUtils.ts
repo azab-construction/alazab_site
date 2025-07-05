@@ -39,7 +39,7 @@ export const fetchMaintenanceRequest = async (requestNumber: string) => {
     priority: requestData.priority,
     status: requestData.status,
     scheduled_date: requestData.scheduled_date,
-    estimated_cost: requestData.estimated_cost ? String(requestData.estimated_cost) : null,
+    estimated_cost: null, // Not available in current database schema
     actual_cost: requestData.actual_cost ? String(requestData.actual_cost) : null,
     created_at: requestData.created_at,
     completion_date: requestData.completion_date

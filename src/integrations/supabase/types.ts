@@ -356,11 +356,11 @@ export type Database = {
           created_by: string | null
           daftera_invoice_id: string | null
           description: string | null
-          estimated_cost: number | null
           id: string
           is_deleted: boolean | null
           issue_type: string | null
           location: string | null
+          preferred_time: string | null
           primary_service_id: string | null
           priority: string | null
           requester_email: string | null
@@ -387,11 +387,11 @@ export type Database = {
           created_by?: string | null
           daftera_invoice_id?: string | null
           description?: string | null
-          estimated_cost?: number | null
           id?: string
           is_deleted?: boolean | null
           issue_type?: string | null
           location?: string | null
+          preferred_time?: string | null
           primary_service_id?: string | null
           priority?: string | null
           requester_email?: string | null
@@ -418,11 +418,11 @@ export type Database = {
           created_by?: string | null
           daftera_invoice_id?: string | null
           description?: string | null
-          estimated_cost?: number | null
           id?: string
           is_deleted?: boolean | null
           issue_type?: string | null
           location?: string | null
+          preferred_time?: string | null
           primary_service_id?: string | null
           priority?: string | null
           requester_email?: string | null
@@ -1352,6 +1352,17 @@ export type Database = {
           | { user_id: number; profile_data: Json }
           | { user_id: string; name: string; email: string }
         Returns: undefined
+      }
+      get_archived_maintenance_dashboard: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          total_requests: number
+          completed_requests: number
+          pending_requests: number
+          high_priority_requests: number
+          medium_priority_requests: number
+          low_priority_requests: number
+        }[]
       }
       get_daily_summary: {
         Args: { report_date: string }
