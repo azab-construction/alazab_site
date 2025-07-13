@@ -25,6 +25,10 @@ import "./App.css";
 
 import ProjectsShowcase from "./pages/ProjectsShowcase";
 import ProjectStoryPage from "./pages/ProjectStoryPage";
+import GeneralSuppliesPage from "./pages/services/GeneralSuppliesPage";
+import MaintenanceRenovationPage from "./pages/services/MaintenanceRenovationPage";
+import BrandIdentityPage from "./pages/services/BrandIdentityPage";
+import LuxuryCleaningPage from "./pages/services/LuxuryCleaningPage";
 
 function App() {
   return (
@@ -74,6 +78,10 @@ function App() {
         } />
         <Route path="/projects-gallery" element={<ProjectsShowcase />} />
         <Route path="/projects-gallery/:projectId" element={<ProjectStoryPage />} />
+        <Route path="/services/general-supplies" element={<GeneralSuppliesPage />} />
+        <Route path="/services/maintenance-renovation" element={<MaintenanceRenovationPage />} />
+        <Route path="/services/brand-identity" element={<BrandIdentityPage />} />
+        <Route path="/services/luxury-cleaning" element={<LuxuryCleaningPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />

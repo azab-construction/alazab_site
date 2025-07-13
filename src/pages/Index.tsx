@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Services from "../components/Services";
+import PremiumServices from "../components/PremiumServices";
 import Projects from "../components/Projects";
 import About from "../components/About";
 import CompanyVision from "../components/CompanyVision";
@@ -84,6 +85,7 @@ const Index: React.FC = () => {
             </div>
           </section>
           
+          <PremiumServices />
           <Services />
           <Projects />
           <About />
