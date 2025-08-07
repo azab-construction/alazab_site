@@ -9,7 +9,7 @@ import About from "../components/About";
 import CompanyVision from "../components/CompanyVision";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
