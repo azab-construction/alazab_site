@@ -8,7 +8,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";

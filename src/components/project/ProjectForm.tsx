@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 
 // تعريف نموذج الإدخال باستخدام Zod
 const projectFormSchema = z.object({
@@ -93,7 +93,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         // إضافة مشروع جديد
         const { data: insertedData, error } = await supabase
           .from('projects')
-          .insert([data])
+          .insert(data)
           .select();
 
         if (error) throw error;

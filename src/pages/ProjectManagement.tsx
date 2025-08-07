@@ -8,7 +8,7 @@ import ProjectForm from '../components/project/ProjectForm';
 import ProjectList from '../components/project/ProjectList';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProjectStats {
