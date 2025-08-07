@@ -20,10 +20,12 @@ import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "./components/ui/toaster";
 import "./App.css";
 
 import ProjectsShowcase from "./pages/ProjectsShowcase";
+import MaintenanceRequestDetails from "./pages/MaintenanceRequestDetails";
+import MaintenanceReports from "./pages/MaintenanceReports";
 import ProjectStoryPage from "./pages/ProjectStoryPage";
 import GeneralSuppliesPage from "./pages/services/GeneralSuppliesPage";
 import MaintenanceRenovationPage from "./pages/services/MaintenanceRenovationPage";
@@ -82,6 +84,16 @@ function App() {
         <Route path="/services/maintenance-renovation" element={<MaintenanceRenovationPage />} />
         <Route path="/services/brand-identity" element={<BrandIdentityPage />} />
         <Route path="/services/luxury-cleaning" element={<LuxuryCleaningPage />} />
+        <Route path="/maintenance-request-details/:id" element={
+          <ProtectedRoute>
+            <MaintenanceRequestDetails />
+          </ProtectedRoute>
+        } />
+        <Route path="/maintenance-reports" element={
+          <ProtectedRoute>
+            <MaintenanceReports />
+          </ProtectedRoute>
+        } />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
