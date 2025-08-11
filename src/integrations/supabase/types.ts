@@ -72,6 +72,27 @@ export type Database = {
           },
         ]
       }
+      ai_keys: {
+        Row: {
+          created_at: string | null
+          deepseek_api_key: string | null
+          github_token: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          deepseek_api_key?: string | null
+          github_token?: string | null
+          id?: string
+        }
+        Update: {
+          created_at?: string | null
+          deepseek_api_key?: string | null
+          github_token?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
       assignments: {
         Row: {
           assigned_at: string | null
@@ -1292,6 +1313,39 @@ export type Database = {
           status?: string | null
           updated_at?: string | null
           updated_by?: string | null
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          id: string
+          image: string | null
+          name: string | null
+          provider: string | null
+          role: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          id: string
+          image?: string | null
+          name?: string | null
+          provider?: string | null
+          role?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          image?: string | null
+          name?: string | null
+          provider?: string | null
+          role?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }

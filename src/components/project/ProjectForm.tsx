@@ -80,7 +80,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         // تحديث مشروع موجود
         const { error } = await supabase
           .from('projects')
-          .update(data)
+          .update(data as any)
           .eq('id', initialData.id);
 
         if (error) throw error;
@@ -93,7 +93,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         // إضافة مشروع جديد
         const { data: insertedData, error } = await supabase
           .from('projects')
-          .insert(data)
+          .insert([data as any])
           .select();
 
         if (error) throw error;

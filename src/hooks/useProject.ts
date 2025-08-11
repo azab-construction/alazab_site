@@ -29,11 +29,19 @@ export const useProject = (projectId: string | undefined) => {
         .from('projects')
         .select('*')
         .eq('id', projectId)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
-      
-      setProject(data);
+      if (!data) { setProject(null); return; }
+
+      const allowedStatuses = ['جديد','قيد التنفيذ','مكتمل','متوقف'] as const;
+      const normalized = {
+        ...data,
+        status: allowedStatuses.includes((data as any).status as any)
+          ? ((data as any).status as (typeof allowedStatuses)[number])
+          : 'جديد',
+      } as any;
+      setProject(normalized as Project);
     } catch (error) {
       console.error("Error fetching project details:", error);
       toast({
@@ -67,6 +75,8 @@ export const useProject = (projectId: string | undefined) => {
         title: "خطأ في جلب ملفات المشروع",
         description: "حدث خطأ أثناء محاولة استرداد ملفات المشروع"
       });
+      // Fallback to empty
+      setFiles([]);
     } finally {
       setLoadingFiles(false);
     }
