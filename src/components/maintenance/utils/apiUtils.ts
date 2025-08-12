@@ -79,12 +79,14 @@ export const updateRequestStatus = async (requestId: string, newStatus: string) 
   }
   
   // إضافة سجل تغيير الحالة
+  const { data: { user } } = await supabase.auth.getUser();
   await supabase
     .from('request_status_log')
     .insert({
       request_id: requestId,
       status: newStatus,
       note: `تم تغيير الحالة إلى ${getStatusText(newStatus)}`,
+      changed_by: user?.id || null,
     });
 };
 

@@ -11,7 +11,7 @@ import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Index: React.FC = () => {
   // تحسين scroll animation handler
@@ -59,7 +59,7 @@ const Index: React.FC = () => {
         <meta property="og:description" content="رائدة في مجال المقاولات والإنشاءات في المملكة العربية السعودية" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="https://alazab.com" />
+        <link rel="canonical" href="https://al-azab.co/" />
       </Helmet>
 
       <div className="bg-white min-h-screen" dir="rtl">
