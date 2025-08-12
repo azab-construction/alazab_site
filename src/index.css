@@ -108,6 +108,12 @@ textarea::placeholder {
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
+
+    /* AZAB tokens migrated from Frappe theme */
+    --azab-primary: hsl(221.2 83.2% 53.3%);
+    --azab-secondary: hsl(217.2 91% 60%);
+    --azab-light: hsl(210 40% 96%);
+    --azab-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
   }
 
   .dark {
