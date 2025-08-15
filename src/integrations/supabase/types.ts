@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -1397,30 +1397,30 @@ export type Database = {
       }
       create_notification: {
         Args: {
-          user_uuid: string
+          notification_message: string
+          notification_title: string
+          notification_type: string
           project_uuid: string
           task_uuid: string
-          notification_type: string
-          notification_title: string
-          notification_message: string
+          user_uuid: string
         }
         Returns: undefined
       }
       create_profile: {
         Args:
-          | { user_id: number; profile_data: Json }
-          | { user_id: string; name: string; email: string }
+          | { email: string; name: string; user_id: string }
+          | { profile_data: Json; user_id: number }
         Returns: undefined
       }
       get_archived_maintenance_dashboard: {
         Args: Record<PropertyKey, never>
         Returns: {
-          total_requests: number
           completed_requests: number
-          pending_requests: number
           high_priority_requests: number
-          medium_priority_requests: number
           low_priority_requests: number
+          medium_priority_requests: number
+          pending_requests: number
+          total_requests: number
         }[]
       }
       get_daily_summary: {
@@ -1433,13 +1433,13 @@ export type Database = {
       }
       log_activity: {
         Args: {
+          action_description: string
+          action_type: string
+          new_val?: string
+          old_val?: string
           project_uuid: string
           task_uuid: string
           user_uuid: string
-          action_type: string
-          action_description: string
-          old_val?: string
-          new_val?: string
         }
         Returns: undefined
       }
