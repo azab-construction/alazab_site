@@ -1,5 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useServiceWorker } from "@/hooks/useServiceWorker";
+import { usePerformanceOptimization } from "@/hooks/usePerformanceOptimization";
+import { trackWebVitals } from "@/utils/analytics";
 import Index from "./pages/Index";
 import MaintenanceRequest from "./pages/MaintenanceRequest";
 import MaintenanceTracking from "./pages/MaintenanceTracking";
@@ -33,6 +36,15 @@ import BrandIdentityPage from "./pages/services/BrandIdentityPage";
 import LuxuryCleaningPage from "./pages/services/LuxuryCleaningPage";
 
 function App() {
+  // تفعيل Service Worker وتحسينات الأداء
+  useServiceWorker();
+  usePerformanceOptimization();
+  
+  // تفعيل تتبع الأداء
+  React.useEffect(() => {
+    trackWebVitals();
+  }, []);
+  
   return (
     <BrowserRouter>
       <Routes>

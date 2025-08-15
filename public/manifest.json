@@ -1,0 +1,35 @@
+{
+  "name": "شركة العزب للمقاولات العامة",
+  "short_name": "العزب للمقاولات",
+  "description": "شركة رائدة في مجال المقاولات والبناء بالمملكة العربية السعودية",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/placeholder.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/placeholder.svg",
+      "type": "image/svg+xml",
+      "sizes": "1280x720",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "prefer_related_applications": false
+}
