@@ -2,11 +2,14 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { projectsData } from "@/data/projectsData";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const ProjectsShowcase: React.FC = () => {
   return (
-    <div className="bg-white min-h-screen pb-16">
-      <section className="bg-gradient-to-r from-construction-primary to-construction-secondary py-16 text-white text-center">
+    <div className="bg-background min-h-screen">
+      <Header />
+      <section className="bg-gradient-to-r from-construction-primary to-construction-secondary pt-24 md:pt-28 pb-16 text-white text-center">
         <div className="container mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">مشاريعنا – حيث يلتقي الإبداع مع الجودة</h1>
           <p className="text-xl text-construction-light mb-6 max-w-2xl mx-auto">
@@ -31,8 +34,9 @@ const ProjectsShowcase: React.FC = () => {
             </div>
           ))}
         </div>
-        <footer className="text-center text-construction-primary mt-16 text-lg font-semibold py-8 border-t">مشاريعنا تتحدث عنّا — نحن لا نبني فقط، بل نرسم تفاصيل الحياة.</footer>
+        <div className="text-center text-construction-primary mt-16 text-lg font-semibold py-8 border-t">مشاريعنا تتحدث عنّا — نحن لا نبني فقط، بل نرسم تفاصيل الحياة.</div>
       </main>
+      <Footer />
     </div>
   );
 };

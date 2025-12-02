@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
@@ -222,6 +222,27 @@ export type Database = {
           },
         ]
       }
+      coverage_cities: {
+        Row: {
+          city: string
+          country: string
+          id: number
+          state: string | null
+        }
+        Insert: {
+          city: string
+          country: string
+          id?: number
+          state?: string | null
+        }
+        Update: {
+          city?: string
+          country?: string
+          id?: number
+          state?: string | null
+        }
+        Relationships: []
+      }
       device_tokens: {
         Row: {
           created_at: string | null
@@ -368,6 +389,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      kv_store_2fc8ebc4: {
+        Row: {
+          key: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      kv_store_cf418985: {
+        Row: {
+          key: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          value?: Json
+        }
+        Relationships: []
       }
       maintenance_requests: {
         Row: {
@@ -717,6 +768,38 @@ export type Database = {
         }
         Relationships: []
       }
+      materials_markup_rules: {
+        Row: {
+          id: number
+          percent: number
+          position: number
+          rate_card_id: string
+          threshold_upper: number | null
+        }
+        Insert: {
+          id?: number
+          percent: number
+          position: number
+          rate_card_id: string
+          threshold_upper?: number | null
+        }
+        Update: {
+          id?: number
+          percent?: number
+          position?: number
+          rate_card_id?: string
+          threshold_upper?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "materials_markup_rules_rate_card_id_fkey"
+            columns: ["rate_card_id"]
+            isOneToOne: false
+            referencedRelation: "rate_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           content: string | null
@@ -992,18 +1075,26 @@ export type Database = {
           description: string | null
           end_date: string | null
           engineer_name: string | null
+          gallery_images: string[] | null
           id: string
           image: string | null
           location: string | null
+          main_image: string | null
           model3d_url: string | null
           name: string
           notes: string | null
           order_number: string | null
+          overview_ar: string | null
+          overview_en: string | null
           progress: number | null
           project_number: string | null
+          slug: string | null
+          specifications: Json | null
           start_date: string | null
           status: string | null
           tags: string | null
+          title_ar: string | null
+          title_en: string | null
           work_type: string | null
         }
         Insert: {
@@ -1016,18 +1107,26 @@ export type Database = {
           description?: string | null
           end_date?: string | null
           engineer_name?: string | null
+          gallery_images?: string[] | null
           id?: string
           image?: string | null
           location?: string | null
+          main_image?: string | null
           model3d_url?: string | null
           name: string
           notes?: string | null
           order_number?: string | null
+          overview_ar?: string | null
+          overview_en?: string | null
           progress?: number | null
           project_number?: string | null
+          slug?: string | null
+          specifications?: Json | null
           start_date?: string | null
           status?: string | null
           tags?: string | null
+          title_ar?: string | null
+          title_en?: string | null
           work_type?: string | null
         }
         Update: {
@@ -1040,18 +1139,26 @@ export type Database = {
           description?: string | null
           end_date?: string | null
           engineer_name?: string | null
+          gallery_images?: string[] | null
           id?: string
           image?: string | null
           location?: string | null
+          main_image?: string | null
           model3d_url?: string | null
           name?: string
           notes?: string | null
           order_number?: string | null
+          overview_ar?: string | null
+          overview_en?: string | null
           progress?: number | null
           project_number?: string | null
+          slug?: string | null
+          specifications?: Json | null
           start_date?: string | null
           status?: string | null
           tags?: string | null
+          title_ar?: string | null
+          title_en?: string | null
           work_type?: string | null
         }
         Relationships: [
@@ -1060,6 +1167,95 @@ export type Database = {
             columns: ["assigned_to"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rate_cards: {
+        Row: {
+          created_at: string
+          currency: string
+          effective_from: string
+          id: string
+          materials_notes: string | null
+          name: string
+          vendor_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          effective_from?: string
+          id?: string
+          materials_notes?: string | null
+          name: string
+          vendor_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          effective_from?: string
+          id?: string
+          materials_notes?: string | null
+          name?: string
+          vendor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rate_cards_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rate_items: {
+        Row: {
+          after_hours_hourly: number
+          id: number
+          min_billable_hours: number
+          min_invoice: number | null
+          normal_hourly: number
+          notes: string | null
+          rate_card_id: string
+          trade_id: number
+          trip_charge: number
+        }
+        Insert: {
+          after_hours_hourly: number
+          id?: number
+          min_billable_hours: number
+          min_invoice?: number | null
+          normal_hourly: number
+          notes?: string | null
+          rate_card_id: string
+          trade_id: number
+          trip_charge?: number
+        }
+        Update: {
+          after_hours_hourly?: number
+          id?: number
+          min_billable_hours?: number
+          min_invoice?: number | null
+          normal_hourly?: number
+          notes?: string | null
+          rate_card_id?: string
+          trade_id?: number
+          trip_charge?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rate_items_rate_card_id_fkey"
+            columns: ["rate_card_id"]
+            isOneToOne: false
+            referencedRelation: "rate_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rate_items_trade_id_fkey"
+            columns: ["trade_id"]
+            isOneToOne: false
+            referencedRelation: "trades"
             referencedColumns: ["id"]
           },
         ]
@@ -1214,6 +1410,265 @@ export type Database = {
         }
         Relationships: []
       }
+      service_assignments: {
+        Row: {
+          arrival_eta: string | null
+          completed_at: string | null
+          id: number
+          notes: string | null
+          request_id: string
+          scheduled_at: string | null
+          started_at: string | null
+          technician_id: string | null
+        }
+        Insert: {
+          arrival_eta?: string | null
+          completed_at?: string | null
+          id?: number
+          notes?: string | null
+          request_id: string
+          scheduled_at?: string | null
+          started_at?: string | null
+          technician_id?: string | null
+        }
+        Update: {
+          arrival_eta?: string | null
+          completed_at?: string | null
+          id?: number
+          notes?: string | null
+          request_id?: string
+          scheduled_at?: string | null
+          started_at?: string | null
+          technician_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_assignments_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_assignments_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_categories: {
+        Row: {
+          code: string
+          created_at: string | null
+          description: string | null
+          description_ar: string | null
+          description_en: string | null
+          icon_url: string | null
+          id: string
+          is_active: boolean | null
+          name: string | null
+          name_ar: string
+          name_en: string | null
+          sort_order: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          description?: string | null
+          description_ar?: string | null
+          description_en?: string | null
+          icon_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string | null
+          name_ar: string
+          name_en?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          description?: string | null
+          description_ar?: string | null
+          description_en?: string | null
+          icon_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string | null
+          name_ar?: string
+          name_en?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      service_request_trades: {
+        Row: {
+          id: number
+          quantity: number
+          request_id: string
+          trade_id: number
+        }
+        Insert: {
+          id?: number
+          quantity?: number
+          request_id: string
+          trade_id: number
+        }
+        Update: {
+          id?: number
+          quantity?: number
+          request_id?: string
+          trade_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_request_trades_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_request_trades_trade_id_fkey"
+            columns: ["trade_id"]
+            isOneToOne: false
+            referencedRelation: "trades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_requests: {
+        Row: {
+          attachment_urls: Json
+          company_name: string | null
+          created_at: string
+          description: string
+          email: string | null
+          facilities_count: number | null
+          id: string
+          location_address: string | null
+          location_id: string | null
+          location_name: string | null
+          location_phone: string | null
+          phone: string | null
+          priority: Database["public"]["Enums"]["priority_type"]
+          requester_name: string
+          status: Database["public"]["Enums"]["request_status"]
+          updated_at: string
+          vendor_id: string | null
+          website: string | null
+        }
+        Insert: {
+          attachment_urls?: Json
+          company_name?: string | null
+          created_at?: string
+          description: string
+          email?: string | null
+          facilities_count?: number | null
+          id?: string
+          location_address?: string | null
+          location_id?: string | null
+          location_name?: string | null
+          location_phone?: string | null
+          phone?: string | null
+          priority?: Database["public"]["Enums"]["priority_type"]
+          requester_name: string
+          status?: Database["public"]["Enums"]["request_status"]
+          updated_at?: string
+          vendor_id?: string | null
+          website?: string | null
+        }
+        Update: {
+          attachment_urls?: Json
+          company_name?: string | null
+          created_at?: string
+          description?: string
+          email?: string | null
+          facilities_count?: number | null
+          id?: string
+          location_address?: string | null
+          location_id?: string | null
+          location_name?: string | null
+          location_phone?: string | null
+          phone?: string | null
+          priority?: Database["public"]["Enums"]["priority_type"]
+          requester_name?: string
+          status?: Database["public"]["Enums"]["request_status"]
+          updated_at?: string
+          vendor_id?: string | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_requests_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_subcategories: {
+        Row: {
+          category_id: string
+          code: string
+          created_at: string | null
+          description: string | null
+          description_ar: string | null
+          description_en: string | null
+          id: string
+          is_active: boolean | null
+          name: string | null
+          name_ar: string
+          name_en: string | null
+          sort_order: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          category_id: string
+          code: string
+          created_at?: string | null
+          description?: string | null
+          description_ar?: string | null
+          description_en?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string | null
+          name_ar: string
+          name_en?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          category_id?: string
+          code?: string
+          created_at?: string | null
+          description?: string | null
+          description_ar?: string | null
+          description_en?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string | null
+          name_ar?: string
+          name_en?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_subcategories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "service_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       service_types: {
         Row: {
           id: string
@@ -1231,6 +1686,110 @@ export type Database = {
           notes?: string | null
         }
         Relationships: []
+      }
+      services: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          estimated_cost: number | null
+          estimated_duration: number | null
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          name_ar: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          estimated_cost?: number | null
+          estimated_duration?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          name_ar: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          estimated_cost?: number | null
+          estimated_duration?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          name_ar?: string
+        }
+        Relationships: []
+      }
+      sla_policies: {
+        Row: {
+          created_at: string
+          onsite_hours: number
+          priority: Database["public"]["Enums"]["priority_type"]
+          response_hours: number
+        }
+        Insert: {
+          created_at?: string
+          onsite_hours: number
+          priority: Database["public"]["Enums"]["priority_type"]
+          response_hours: number
+        }
+        Update: {
+          created_at?: string
+          onsite_hours?: number
+          priority?: Database["public"]["Enums"]["priority_type"]
+          response_hours?: number
+        }
+        Relationships: []
+      }
+      spare_parts: {
+        Row: {
+          added_by: string | null
+          created_at: string | null
+          id: string
+          part_name: string
+          quantity: number | null
+          request_id: string | null
+          supplier: string | null
+          total_price: number | null
+          unit_price: number | null
+        }
+        Insert: {
+          added_by?: string | null
+          created_at?: string | null
+          id?: string
+          part_name: string
+          quantity?: number | null
+          request_id?: string | null
+          supplier?: string | null
+          total_price?: number | null
+          unit_price?: number | null
+        }
+        Update: {
+          added_by?: string | null
+          created_at?: string | null
+          id?: string
+          part_name?: string
+          quantity?: number | null
+          request_id?: string | null
+          supplier?: string | null
+          total_price?: number | null
+          unit_price?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "spare_parts_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "maintenance_requests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       store_facades_gallery: {
         Row: {
@@ -1316,6 +1875,113 @@ export type Database = {
         }
         Relationships: []
       }
+      technician_schedule: {
+        Row: {
+          date: string
+          id: string
+          is_available: boolean | null
+          request_id: string | null
+          technician_id: string | null
+          time_slot: string | null
+        }
+        Insert: {
+          date: string
+          id?: string
+          is_available?: boolean | null
+          request_id?: string | null
+          technician_id?: string | null
+          time_slot?: string | null
+        }
+        Update: {
+          date?: string
+          id?: string
+          is_available?: boolean | null
+          request_id?: string | null
+          technician_id?: string | null
+          time_slot?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "technician_schedule_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "maintenance_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "technician_schedule_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "technicians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      technicians: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          is_w2: boolean
+          phone: string | null
+          vendor_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          is_w2?: boolean
+          phone?: string | null
+          vendor_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          is_w2?: boolean
+          phone?: string | null
+          vendor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "technicians_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trades: {
+        Row: {
+          code: string
+          id: number
+          is_active: boolean
+          name_ar: string | null
+          name_en: string
+          tier: Database["public"]["Enums"]["rate_tier"]
+        }
+        Insert: {
+          code: string
+          id?: number
+          is_active?: boolean
+          name_ar?: string | null
+          name_en: string
+          tier?: Database["public"]["Enums"]["rate_tier"]
+        }
+        Update: {
+          code?: string
+          id?: number
+          is_active?: boolean
+          name_ar?: string | null
+          name_en?: string
+          tier?: Database["public"]["Enums"]["rate_tier"]
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           created_at: string | null
@@ -1346,6 +2012,186 @@ export type Database = {
           provider?: string | null
           role?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      vendor_contacts: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          is_primary: boolean
+          phone: string | null
+          role: Database["public"]["Enums"]["contact_role"]
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          is_primary?: boolean
+          phone?: string | null
+          role?: Database["public"]["Enums"]["contact_role"]
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          is_primary?: boolean
+          phone?: string | null
+          role?: Database["public"]["Enums"]["contact_role"]
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_contacts_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_coverage: {
+        Row: {
+          city_id: number
+          created_at: string
+          vendor_id: string
+        }
+        Insert: {
+          city_id: number
+          created_at?: string
+          vendor_id: string
+        }
+        Update: {
+          city_id?: number
+          created_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_coverage_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "coverage_cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_coverage_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_insurance: {
+        Row: {
+          certificate_holder: string | null
+          certificate_urls: Json
+          created_at: string
+          expires_at: string | null
+          has_general_liability: boolean
+          has_workers_comp: boolean
+          id: string
+          vendor_id: string
+        }
+        Insert: {
+          certificate_holder?: string | null
+          certificate_urls?: Json
+          created_at?: string
+          expires_at?: string | null
+          has_general_liability?: boolean
+          has_workers_comp?: boolean
+          id?: string
+          vendor_id: string
+        }
+        Update: {
+          certificate_holder?: string | null
+          certificate_urls?: Json
+          created_at?: string
+          expires_at?: string | null
+          has_general_liability?: boolean
+          has_workers_comp?: boolean
+          id?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_insurance_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_members: {
+        Row: {
+          created_at: string
+          role: string
+          user_id: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          role?: string
+          user_id: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          role?: string
+          user_id?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_members_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendors: {
+        Row: {
+          city: string | null
+          country: string
+          created_at: string
+          dba_name: string | null
+          id: string
+          is_active: boolean
+          legal_name: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string
+          created_at?: string
+          dba_name?: string | null
+          id?: string
+          is_active?: boolean
+          legal_name: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string
+          created_at?: string
+          dba_name?: string | null
+          id?: string
+          is_active?: boolean
+          legal_name?: string
+          updated_at?: string
+          website?: string | null
         }
         Relationships: []
       }
@@ -1391,10 +2237,7 @@ export type Database = {
         Args: { project_uuid: string }
         Returns: number
       }
-      check_overdue_tasks: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      check_overdue_tasks: { Args: never; Returns: undefined }
       create_notification: {
         Args: {
           notification_message: string
@@ -1406,14 +2249,29 @@ export type Database = {
         }
         Returns: undefined
       }
-      create_profile: {
-        Args:
-          | { email: string; name: string; user_id: string }
-          | { profile_data: Json; user_id: number }
-        Returns: undefined
+      create_profile:
+        | { Args: { profile_data: Json; user_id: number }; Returns: undefined }
+        | {
+            Args: { email: string; name: string; user_id: string }
+            Returns: undefined
+          }
+      create_service_request_rpc: {
+        Args: {
+          p_company_name: string
+          p_description: string
+          p_email: string
+          p_location_address: string
+          p_location_name: string
+          p_location_phone: string
+          p_phone: string
+          p_priority: Database["public"]["Enums"]["priority_type"]
+          p_requester_name: string
+          p_website?: string
+        }
+        Returns: string
       }
       get_archived_maintenance_dashboard: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           completed_requests: number
           high_priority_requests: number
@@ -1423,14 +2281,12 @@ export type Database = {
           total_requests: number
         }[]
       }
-      get_daily_summary: {
-        Args: { report_date: string }
-        Returns: Json
-      }
-      is_admin_user: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      get_daily_summary: { Args: { report_date: string }; Returns: Json }
+      insecure_function: { Args: never; Returns: string }
+      is_admin_user: { Args: never; Returns: boolean }
+      is_staff: { Args: never; Returns: boolean }
+      is_vendor_admin: { Args: { v: string }; Returns: boolean }
+      is_vendor_member: { Args: { v: string }; Returns: boolean }
       log_activity: {
         Args: {
           action_description: string
@@ -1443,8 +2299,19 @@ export type Database = {
         }
         Returns: undefined
       }
+      secure_function: { Args: never; Returns: string }
     }
     Enums: {
+      contact_role: "service" | "accounting" | "finance" | "owner"
+      priority_type: "normal" | "emergency"
+      rate_tier: "standard" | "specialty"
+      request_status:
+        | "new"
+        | "triaged"
+        | "scheduled"
+        | "in_progress"
+        | "done"
+        | "cancelled"
       status_enum:
         | "active"
         | "inactive"
@@ -1579,6 +2446,17 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      contact_role: ["service", "accounting", "finance", "owner"],
+      priority_type: ["normal", "emergency"],
+      rate_tier: ["standard", "specialty"],
+      request_status: [
+        "new",
+        "triaged",
+        "scheduled",
+        "in_progress",
+        "done",
+        "cancelled",
+      ],
       status_enum: [
         "active",
         "inactive",
