@@ -3,6 +3,8 @@ import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { projectsData } from "@/data/projectsData";
 import { ArrowLeft } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const ProjectStoryPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -10,16 +12,21 @@ const ProjectStoryPage: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen flex flex-col justify-center items-center text-center p-8">
-        <h2 className="text-3xl font-bold text-construction-primary mb-4">المشروع غير موجود</h2>
-        <Link to="/projects-gallery" className="text-construction-primary underline">عودة إلى جميع المشاريع</Link>
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="pt-24 flex flex-col justify-center items-center text-center p-8">
+          <h2 className="text-3xl font-bold text-construction-primary mb-4">المشروع غير موجود</h2>
+          <Link to="/projects-gallery" className="text-construction-primary underline">عودة إلى جميع المشاريع</Link>
+        </div>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="bg-white min-h-screen">
-      <div className="container mx-auto px-4 py-8">
+    <div className="bg-background min-h-screen">
+      <Header />
+      <div className="container mx-auto px-4 pt-24 pb-8">
         <header className="mb-8 flex items-center gap-4">
           <Link to="/projects-gallery" className="text-construction-primary flex items-center hover:underline">
             <ArrowLeft className="ml-1" /> العودة لكل المشاريع
@@ -83,8 +90,9 @@ const ProjectStoryPage: React.FC = () => {
             </Link>
           </div>
         </article>
-        <footer className="text-center text-construction-primary mt-12 text-lg font-semibold py-8">مشاريعنا تتحدث عنّا — نحن لا نبني فقط، بل نرسم تفاصيل الحياة.</footer>
+        <div className="text-center text-construction-primary mt-12 text-lg font-semibold py-8">مشاريعنا تتحدث عنّا — نحن لا نبني فقط، بل نرسم تفاصيل الحياة.</div>
       </div>
+      <Footer />
     </div>
   );
 };
