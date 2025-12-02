@@ -768,6 +768,105 @@ export type Database = {
         }
         Relationships: []
       }
+      material_prices: {
+        Row: {
+          created_at: string | null
+          currency: string | null
+          effective_at: string | null
+          id: string
+          is_active: boolean | null
+          market_status: string | null
+          material_code: string
+          name_ar: string
+          name_en: string | null
+          price_from: number | null
+          price_to: number | null
+          source: string | null
+          unit: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          currency?: string | null
+          effective_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          market_status?: string | null
+          material_code: string
+          name_ar: string
+          name_en?: string | null
+          price_from?: number | null
+          price_to?: number | null
+          source?: string | null
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          currency?: string | null
+          effective_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          market_status?: string | null
+          material_code?: string
+          name_ar?: string
+          name_en?: string | null
+          price_from?: number | null
+          price_to?: number | null
+          source?: string | null
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      material_prices_backup_20251202: {
+        Row: {
+          created_at: string | null
+          currency: string | null
+          effective_at: string | null
+          id: string | null
+          is_active: boolean | null
+          market_status: string | null
+          material_code: string | null
+          name_ar: string | null
+          name_en: string | null
+          price: number | null
+          source: string | null
+          unit: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          currency?: string | null
+          effective_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          market_status?: string | null
+          material_code?: string | null
+          name_ar?: string | null
+          name_en?: string | null
+          price?: number | null
+          source?: string | null
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          currency?: string | null
+          effective_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          market_status?: string | null
+          material_code?: string | null
+          name_ar?: string | null
+          name_en?: string | null
+          price?: number | null
+          source?: string | null
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       materials_markup_rules: {
         Row: {
           id: number

@@ -34,6 +34,7 @@ import GeneralSuppliesPage from "./pages/services/GeneralSuppliesPage";
 import MaintenanceRenovationPage from "./pages/services/MaintenanceRenovationPage";
 import BrandIdentityPage from "./pages/services/BrandIdentityPage";
 import LuxuryCleaningPage from "./pages/services/LuxuryCleaningPage";
+import MaterialPricesPage from "./pages/MaterialPricesPage";
 
 function App() {
   // تفعيل Service Worker وتحسينات الأداء
@@ -96,6 +97,7 @@ function App() {
         <Route path="/services/maintenance-renovation" element={<MaintenanceRenovationPage />} />
         <Route path="/services/brand-identity" element={<BrandIdentityPage />} />
         <Route path="/services/luxury-cleaning" element={<LuxuryCleaningPage />} />
+        <Route path="/material-prices" element={<MaterialPricesPage />} />
         <Route path="/maintenance-request-details/:id" element={
           <ProtectedRoute>
             <MaintenanceRequestDetails />
