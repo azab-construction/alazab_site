@@ -9,9 +9,17 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4">شركة العزب للمقاولات</h3>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-2xl">ع</span>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold">العزب</h3>
+                <p className="text-xs text-construction-light">للمقاولات والتشطيبات</p>
+              </div>
+            </div>
             <p className="text-construction-light mb-4 leading-relaxed">
-              شركة رائدة في مجال المقاولات والإنشاءات، نقدم خدمات متكاملة بأعلى معايير الجودة والاحترافية.
+              شركة رائدة في مجال المقاولات والتشطيبات، نقدم خدمات متكاملة بأعلى معايير الجودة والاحترافية.
             </p>
             <div className="text-sm text-construction-light">
               <p>تأسست منذ أكثر من 20 عاماً</p>
@@ -61,12 +69,11 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-xl font-bold mb-4">خدماتنا</h3>
             <ul className="space-y-2 text-construction-light">
-              <li>• المقاولات العامة</li>
-              <li>• التصميم المعماري</li>
-              <li>• إدارة المشاريع</li>
-              <li>• الصيانة والتشغيل</li>
+              <li>• تشطيب راقي</li>
+              <li>• هوية العلامة التجارية</li>
+              <li>• أوبر فيكس</li>
+              <li>• التوريدات العمومية</li>
               <li>• الاستشارات الهندسية</li>
-              <li>• التطوير العقاري</li>
             </ul>
           </div>
 
@@ -109,11 +116,10 @@ const Footer: React.FC = () => {
         {/* Copyright */}
         <div className="text-center text-construction-light text-sm">
           <p className="mb-2">
-            جميع الحقوق محفوظة © 2024 شركة العزب للمقاولات
+            جميع الحقوق محفوظة © 2024 العزب للمقاولات والتشطيبات
           </p>
           <p className="text-xs leading-relaxed">
-            شركة العزب للإنشاءات شركة تابعة للعلامة التجارية المسجلة D-U-N-S No: 849203826،
-            تعمل تحت الاسم التجاري القانوني "عزب لأعمال الإدارة التنفيذية للمشاريع الصناعية والخدمية والتوريدات العامة"
+            العزب للإنشاءات - علامة تجارية مسجلة D-U-N-S No: 849203826
           </p>
         </div>
       </div>

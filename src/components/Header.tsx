@@ -45,15 +45,15 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-construction-primary rounded-lg p-1"
-            aria-label="العودة للصفحة الرئيسية - شركة العزب للمقاولات العامة"
+            className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-construction-primary rounded-lg p-1"
+            aria-label="العودة للصفحة الرئيسية - العزب للمقاولات"
           >
-            <div className="w-10 h-10 bg-construction-primary rounded-lg flex items-center justify-center">
-              <Wrench className="w-6 h-6 text-white" aria-hidden="true" />
+            <div className="w-11 h-11 bg-gradient-to-br from-construction-primary to-construction-dark rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-white font-bold text-xl">ع</span>
             </div>
             <div className="hidden md:block">
-              <h1 className="text-xl font-bold text-construction-primary">شركة العزب</h1>
-              <p className="text-sm text-gray-600">للمقاولات العامة</p>
+              <h1 className="text-2xl font-bold text-construction-primary tracking-tight">العزب</h1>
+              <p className="text-xs text-gray-500 -mt-1">للمقاولات والتشطيبات</p>
             </div>
           </Link>
 
