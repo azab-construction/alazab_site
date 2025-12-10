@@ -31,9 +31,9 @@ import MaintenanceRequestDetails from "./pages/MaintenanceRequestDetails";
 import MaintenanceReports from "./pages/MaintenanceReports";
 import ProjectStoryPage from "./pages/ProjectStoryPage";
 import GeneralSuppliesPage from "./pages/services/GeneralSuppliesPage";
-import MaintenanceRenovationPage from "./pages/services/MaintenanceRenovationPage";
+import UberFixPage from "./pages/services/UberFixPage";
 import BrandIdentityPage from "./pages/services/BrandIdentityPage";
-import LuxuryCleaningPage from "./pages/services/LuxuryCleaningPage";
+import LuxuryFinishingPage from "./pages/services/LuxuryFinishingPage";
 import MaterialPricesPage from "./pages/MaterialPricesPage";
 
 function App() {
@@ -94,9 +94,9 @@ function App() {
         <Route path="/projects-gallery" element={<ProjectsShowcase />} />
         <Route path="/projects-gallery/:projectId" element={<ProjectStoryPage />} />
         <Route path="/services/general-supplies" element={<GeneralSuppliesPage />} />
-        <Route path="/services/maintenance-renovation" element={<MaintenanceRenovationPage />} />
+        <Route path="/services/uber-fix" element={<UberFixPage />} />
         <Route path="/services/brand-identity" element={<BrandIdentityPage />} />
-        <Route path="/services/luxury-cleaning" element={<LuxuryCleaningPage />} />
+        <Route path="/services/luxury-finishing" element={<LuxuryFinishingPage />} />
         <Route path="/material-prices" element={<MaterialPricesPage />} />
         <Route path="/maintenance-request-details/:id" element={
           <ProtectedRoute>

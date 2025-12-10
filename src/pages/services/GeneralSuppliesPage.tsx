@@ -31,14 +31,14 @@ const GeneralSuppliesPage: React.FC = () => {
   ];
 
   const supplies = [
-    "مواد البناء والإنشاءات",
-    "المعدات والأدوات",
-    "الأجهزة الكهربائية والإلكترونية",
-    "مواد السباكة والصحية",
-    "الدهانات ومواد التشطيب",
-    "الأثاث والمفروشات",
-    "مواد السلامة والأمان",
-    "قطع الغيار والصيانة"
+    "خامات السباكة والصحي",
+    "خامات الكهرباء والإنارة",
+    "خامات التكييف والتبريد",
+    "خامات الدهانات والديكورات",
+    "خامات الأرضيات والتكسيات",
+    "خامات النجارة والأبواب",
+    "خامات الألوميتال والزجاج",
+    "خامات العزل المائي والحراري"
   ];
 
   return (
@@ -46,28 +46,40 @@ const GeneralSuppliesPage: React.FC = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground pt-24 md:pt-28 pb-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white pt-24 md:pt-28 pb-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <div className="w-20 h-20 bg-white/20 rounded-full mx-auto mb-6 flex items-center justify-center">
               <Truck className="w-10 h-10" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              توريدات عامة
+              التوريدات العمومية
             </h1>
             <p className="text-xl mb-8 leading-relaxed">
-              حلول إمداد متكاملة وشاملة لدعم جميع احتياجات مشروعك بأعلى معايير الجودة والكفاءة
+              توريد جميع أنواع الخامات المعمارية بأفضل الأسعار وأعلى معايير الجودة
             </p>
-            <Button 
-              asChild
-              size="lg"
-              className="bg-white text-blue-600 hover:bg-gray-100 rounded-full px-8"
-            >
-              <Link to="/contact">
-                احصل على عرض سعر
-                <ArrowRight className="mr-2 w-5 h-5" />
-              </Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                asChild
+                size="lg"
+                className="bg-white text-blue-600 hover:bg-gray-100 rounded-full px-8"
+              >
+                <Link to="/contact">
+                  احصل على عرض سعر
+                  <ArrowRight className="mr-2 w-5 h-5" />
+                </Link>
+              </Button>
+              <Button 
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-blue-600 rounded-full px-8"
+              >
+                <Link to="/material-prices">
+                  تصفح كتالوج الأسعار
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

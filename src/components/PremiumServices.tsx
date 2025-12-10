@@ -6,36 +6,36 @@ import { Truck, Hammer, Palette, Home } from "lucide-react";
 
 const premiumServices = [
   {
-    id: "general-supplies",
-    icon: Truck,
-    title: "توريدات عامة",
-    description: "حلول إمداد متكاملة لدعم جميع احتياجات مشروعك",
-    color: "bg-blue-50 text-blue-600",
-    route: "/services/general-supplies"
-  },
-  {
-    id: "maintenance-renovation",
-    icon: Hammer,
-    title: "الصيانة والتجديدات",
-    description: "حلول شاملة للحفاظ على مساندتك وتجديدها",
-    color: "bg-orange-50 text-orange-600",
-    route: "/services/maintenance-renovation"
+    id: "luxury-finishing",
+    icon: Home,
+    title: "تشطيب راقي",
+    description: "تشطيب الوحدات السكنية بأعلى معايير الجودة والفخامة - شقق، فلل، دوبلكس",
+    color: "bg-amber-50 text-amber-600",
+    route: "/services/luxury-finishing"
   },
   {
     id: "brand-identity",
     icon: Palette,
     title: "هوية العلامة التجارية",
-    description: "إنشاء منشآت مؤسسية تعكس هويتك التجارية",
+    description: "تجهيز المحلات التجارية والمكاتب الإدارية بهوية بصرية مميزة",
     color: "bg-purple-50 text-purple-600",
     route: "/services/brand-identity"
   },
   {
-    id: "luxury-cleaning",
-    icon: Home,
-    title: "تنظيف فاخر",
-    description: "حلول تنظيف عالية الجودة لتحويل مساحتك إلى بيئة فريدة",
-    color: "bg-green-50 text-green-600",
-    route: "/services/luxury-cleaning"
+    id: "uber-fix",
+    icon: Hammer,
+    title: "أوبر فيكس",
+    description: "خدمات الصيانة والتجديدات المعمارية الاحترافية",
+    color: "bg-orange-50 text-orange-600",
+    route: "/services/uber-fix"
+  },
+  {
+    id: "general-supplies",
+    icon: Truck,
+    title: "التوريدات العمومية",
+    description: "توريد جميع أنواع الخامات المعمارية بأفضل الأسعار",
+    color: "bg-blue-50 text-blue-600",
+    route: "/services/general-supplies"
   },
 ];
 

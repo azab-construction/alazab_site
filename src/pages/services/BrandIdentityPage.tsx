@@ -2,43 +2,52 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowRight, Palette, Building2, Users, Target, CheckCircle, Star } from "lucide-react";
+import { ArrowRight, Palette, Building2, Store, Lightbulb, CheckCircle, Star } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const BrandIdentityPage: React.FC = () => {
   const services = [
     {
+      icon: Store,
+      title: "تجهيز المحلات التجارية",
+      description: "تجهيز متكامل للمحلات والمعارض بتصاميم عصرية تجذب العملاء"
+    },
+    {
       icon: Building2,
-      title: "تصميم المباني التجارية",
-      description: "تصميم واجهات ومساحات تعكس هوية علامتك التجارية"
+      title: "تجهيز المكاتب الإدارية",
+      description: "تصميم وتنفيذ مكاتب إدارية عملية وأنيقة تعكس احترافية شركتك"
     },
     {
       icon: Palette,
-      title: "التصميم الداخلي",
-      description: "تصميم داخلي متميز يجسد قيم ورؤية الشركة"
+      title: "تصميم الهوية البصرية",
+      description: "تصميم واجهات ولافتات مميزة تعكس هوية علامتك التجارية"
     },
     {
-      icon: Users,
-      title: "تجربة العملاء",
-      description: "تصميم مساحات تخلق تجربة فريدة ومميزة للعملاء"
-    },
-    {
-      icon: Target,
-      title: "الهوية البصرية",
-      description: "تطبيق الهوية البصرية على جميع عناصر المكان"
+      icon: Lightbulb,
+      title: "الإضاءة والديكور",
+      description: "حلول إضاءة وديكور مبتكرة تعزز تجربة العملاء في مساحتك"
     }
   ];
 
+  const spaceTypes = [
+    { name: "محلات تجارية", desc: "معارض، بوتيكات، سوبر ماركت" },
+    { name: "مكاتب إدارية", desc: "مكاتب شركات، عيادات، مراكز خدمة" },
+    { name: "مطاعم وكافيهات", desc: "مطاعم، كافيهات، فود كورت" },
+    { name: "صالونات ومراكز", desc: "صالونات تجميل، جيم، سبا" },
+    { name: "فروع بنوك", desc: "فروع بنكية، صرافات، شركات تمويل" },
+    { name: "معارض سيارات", desc: "معارض، وكالات، مراكز صيانة" }
+  ];
+
   const features = [
-    "تصميم واجهات المباني التجارية",
-    "تطوير الهوية البصرية للمساحات",
-    "تصميم اللافتات والإعلانات",
-    "تخطيط المساحات التجارية",
-    "اختيار الألوان والمواد",
+    "تصميم واجهات خارجية مميزة",
+    "تنفيذ اللافتات والإعلانات",
+    "تجهيز الأرضيات والأسقف",
+    "أنظمة الإضاءة الذكية",
     "تصميم أماكن الاستقبال",
-    "تنسيق المعارض والصالات",
-    "تطبيق معايير العلامة التجارية"
+    "تجهيز غرف الاجتماعات",
+    "أنظمة العرض والديسبلاي",
+    "التكييف والتهوية"
   ];
 
   return (
@@ -56,7 +65,7 @@ const BrandIdentityPage: React.FC = () => {
               هوية العلامة التجارية
             </h1>
             <p className="text-xl mb-8 leading-relaxed">
-              إنشاء منشآت مؤسسية متميزة تعكس هويتك التجارية وتخلق انطباعاً دائماً لدى عملائك
+              متخصصون في تجهيز المحلات التجارية والمكاتب الإدارية بهوية بصرية مميزة تعكس علامتك التجارية
             </p>
             <Button 
               asChild
@@ -64,10 +73,44 @@ const BrandIdentityPage: React.FC = () => {
               className="bg-white text-purple-600 hover:bg-gray-100 rounded-full px-8"
             >
               <Link to="/contact">
-                ابدأ مشروعك
+                احصل على استشارة مجانية
                 <ArrowRight className="mr-2 w-5 h-5" />
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Space Types Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              أنواع المساحات التي نجهزها
+            </h2>
+            <p className="text-lg text-gray-600">
+              خبرة واسعة في تجهيز جميع أنواع المساحات التجارية والإدارية
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {spaceTypes.map((space, index) => (
+              <Card key={index} className="text-center border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                <CardHeader>
+                  <div className="w-16 h-16 bg-purple-100 text-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <Store className="w-8 h-8" />
+                  </div>
+                  <CardTitle className="text-xl font-bold">
+                    {space.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-gray-600">
+                    {space.desc}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
