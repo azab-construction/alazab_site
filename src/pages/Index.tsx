@@ -11,7 +11,7 @@ import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+
 
 const Index: React.FC = () => {
   // تحسين scroll animation handler
@@ -50,17 +50,7 @@ const Index: React.FC = () => {
   
   return (
     <>
-      {/* SEO Meta Tags */}
-      <Helmet>
-        <title>شركة العزب للمقاولات العامة - خدمات إنشاء وصيانة متميزة</title>
-        <meta name="description" content="شركة العزب للمقاولات العامة - رائدة في مجال المقاولات والإنشاءات في المملكة العربية السعودية. نقدم خدمات متميزة في البناء والصيانة والتطوير العقاري." />
-        <meta name="keywords" content="مقاولات, إنشاءات, صيانة, السعودية, البناء, التطوير العقاري" />
-        <meta property="og:title" content="شركة العزب للمقاولات العامة" />
-        <meta property="og:description" content="رائدة في مجال المقاولات والإنشاءات في المملكة العربية السعودية" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="https://al-azab.co/" />
-      </Helmet>
+      {/* SEO Meta Tags set in index.html */}
 
       <div className="bg-white min-h-screen" dir="rtl">
         <Header />
