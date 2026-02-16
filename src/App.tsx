@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { registerServiceWorker } from "@/utils/serviceWorker";
+import { registerServiceWorker } from "@/hooks/useServiceWorker";
 import { trackWebVitals } from "@/utils/analytics";
 import Index from "./pages/Index";
 import MaintenanceRequest from "./pages/MaintenanceRequest";
