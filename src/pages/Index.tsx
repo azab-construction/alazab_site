@@ -52,11 +52,11 @@ const Index: React.FC = () => {
     <>
       {/* SEO Meta Tags */}
       <Helmet>
-        <title>شركة العزب للمقاولات العامة - خدمات إنشاء وصيانة متميزة</title>
-        <meta name="description" content="شركة العزب للمقاولات العامة - رائدة في مجال المقاولات والإنشاءات في المملكة العربية السعودية. نقدم خدمات متميزة في البناء والصيانة والتطوير العقاري." />
-        <meta name="keywords" content="مقاولات, إنشاءات, صيانة, السعودية, البناء, التطوير العقاري" />
-        <meta property="og:title" content="شركة العزب للمقاولات العامة" />
-        <meta property="og:description" content="رائدة في مجال المقاولات والإنشاءات في المملكة العربية السعودية" />
+        <title>العزب للمقاولات والتشطيبات - خدمات بناء وتشطيب متميزة</title>
+        <meta name="description" content="العزب للمقاولات والتشطيبات - رائدة في مجال المقاولات والتشطيبات في السعودية ومصر. تشطيب راقي، هوية تجارية، أوبر فيكس، توريدات عمومية." />
+        <meta name="keywords" content="مقاولات, تشطيبات, صيانة, السعودية, مصر, البناء, تشطيب راقي, توريدات" />
+        <meta property="og:title" content="العزب للمقاولات والتشطيبات" />
+        <meta property="og:description" content="رائدة في مجال المقاولات والتشطيبات في السعودية ومصر" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href="https://al-azab.co/" />
@@ -67,18 +67,16 @@ const Index: React.FC = () => {
         <main className="space-y-0">
           <Hero />
           
-          {/* زر طلب صيانة */}
-          <section className="py-12 bg-gray-50" aria-labelledby="maintenance-section">
+          {/* CTA Section */}
+          <section className="py-16 bg-gradient-to-r from-construction-primary to-construction-secondary" aria-labelledby="cta-section">
             <div className="container mx-auto px-4 text-center">
-              <h2 id="maintenance-section" className="sr-only">خدمات الصيانة</h2>
+              <h2 id="cta-section" className="text-2xl md:text-3xl font-bold text-white mb-4">هل تحتاج إلى خدمة صيانة؟</h2>
+              <p className="text-gray-300 mb-8 max-w-xl mx-auto">قدّم طلب صيانة الآن واحصل على استجابة سريعة من فريقنا المتخصص</p>
               <Button 
-                className="bg-construction-accent hover:bg-construction-accent/90 text-white py-3 px-6 rounded-md text-lg transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-construction-accent"
+                className="bg-construction-accent hover:bg-construction-accent/90 text-construction-dark font-bold py-6 px-10 rounded-xl text-lg transition-all duration-200 hover:scale-105 shadow-lg shadow-construction-accent/25"
                 asChild
               >
                 <Link to="/maintenance-request">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2" aria-hidden="true">
-                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                  </svg>
                   تقديم طلب صيانة
                 </Link>
               </Button>
