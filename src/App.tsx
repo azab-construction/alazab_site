@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useServiceWorker } from "@/hooks/useServiceWorker";
 import { usePerformanceOptimization } from "@/hooks/usePerformanceOptimization";
 import { trackWebVitals } from "@/utils/analytics";
 import Index from "./pages/Index";
@@ -36,7 +37,8 @@ import LuxuryFinishingPage from "./pages/services/LuxuryFinishingPage";
 import MaterialPricesPage from "./pages/MaterialPricesPage";
 
 function App() {
-  // Service Worker removed to fix dual-React instance conflict
+  // تفعيل Service Worker وتحسينات الأداء
+  useServiceWorker();
   usePerformanceOptimization();
   
   // تفعيل تتبع الأداء
