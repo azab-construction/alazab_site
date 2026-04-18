@@ -89,7 +89,7 @@ class Analytics {
   private async sendEvent(event: AnalyticsEvent) {
     try {
       // يمكن إضافة API endpoint هنا للإرسال للخادم
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('Analytics Event:', event);
       }
 
