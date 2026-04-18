@@ -10,7 +10,9 @@ export function useServiceWorker() {
     // تسجيل Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        // Resolve sw.js relative to the deployment base (works under /portal/ or /)
+        const swUrl = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/sw.js`.replace(/^\/assets\/alazab_portal\/dist/, "/portal");
+        navigator.serviceWorker.register(swUrl, { scope: import.meta.env.BASE_URL.includes("alazab_portal") ? "/portal/" : "/" })
           .then((registration) => {
             console.log('SW registered: ', registration);
             

@@ -34,15 +34,21 @@ import BrandIdentityPage from "./pages/services/BrandIdentityPage";
 import LuxuryFinishingPage from "./pages/services/LuxuryFinishingPage";
 import MaterialPricesPage from "./pages/MaterialPricesPage";
 
+// Detect deployment basename:
+// - Frappe build: Vite injects BASE_URL = "/assets/alazab_portal/dist/"
+//   but the SPA is served at "/portal/" → use that for the router.
+// - Standard build: BASE_URL = "/" → router uses "/".
+const ROUTER_BASENAME = import.meta.env.BASE_URL.includes("alazab_portal")
+  ? "/portal"
+  : "/";
+
 function App() {
-  // تفعيل تتبع الأداء
-  // تفعيل تتبع الأداء
   React.useEffect(() => {
     trackWebVitals();
   }, []);
-  
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={ROUTER_BASENAME}>
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/auth" element={<AuthPage />} />
