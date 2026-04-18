@@ -15,3 +15,7 @@ README.md
 *.md
 supabase/.temp
 .lovable
+# Frappe app wrapper — not needed in Docker image
+apps/
+scripts/deploy-to-frappe.sh
+FRAPPE_DEPLOYMENT.md

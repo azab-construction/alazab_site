@@ -2,7 +2,7 @@
   "name": "شركة العزب للمقاولات العامة",
   "short_name": "العزب للمقاولات",
   "description": "شركة رائدة في مجال المقاولات والبناء بالمملكة العربية السعودية",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
