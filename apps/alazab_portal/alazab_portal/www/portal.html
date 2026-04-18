@@ -1,0 +1,82 @@
+{# ============================================================
+   Al-Azab React/Vite SPA loader
+   - Serves /portal and /portal/<any-path> (see website_route_rules)
+   - Loads the built React bundle from /assets/alazab_portal/dist/
+   - <base href="/portal/"> ensures relative asset paths work
+   ============================================================ #}
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("Al-Azab Portal") }}{% endblock %}
+
+{% block head_include %}
+<base href="/portal/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Al-Azab Portal — Construction & Maintenance Management" />
+<link rel="icon" type="image/png" href="/assets/alazab_portal/dist/favicon.ico" />
+
+{# Inject the built React index.html's <head> assets #}
+{% set dist_path = frappe.get_app_path('alazab_portal', 'public', 'dist', 'index.html') %}
+{% if frappe.utils.os.path.exists(dist_path) %}
+  {% set index_html = frappe.utils.file_manager.get_file_path(dist_path) %}
+{% endif %}
+{% endblock %}
+
+{% block page_content %}
+<div id="root"></div>
+
+{# React app entry — Vite generates hashed filenames in dist/assets/.
+   We use a small loader that fetches the built index.html and extracts
+   its <script>/<link> tags, so we don't need to hard-code hashes. #}
+<script>
+  (async function loadAlazabSPA() {
+    try {
+      const res = await fetch('/assets/alazab_portal/dist/index.html', { cache: 'no-cache' });
+      if (!res.ok) throw new Error('SPA build not found. Run: npm run build && copy dist/* to apps/alazab_portal/alazab_portal/public/dist/');
+      const html = await res.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+
+      // Inject stylesheets
+      doc.querySelectorAll('link[rel="stylesheet"], link[rel="modulepreload"]').forEach((el) => {
+        const link = document.createElement('link');
+        for (const attr of el.attributes) {
+          let val = attr.value;
+          if (attr.name === 'href' && val.startsWith('/')) {
+            val = '/assets/alazab_portal/dist' + val;
+          }
+          link.setAttribute(attr.name, val);
+        }
+        document.head.appendChild(link);
+      });
+
+      // Inject scripts (modules)
+      doc.querySelectorAll('script[src]').forEach((el) => {
+        const s = document.createElement('script');
+        for (const attr of el.attributes) {
+          let val = attr.value;
+          if (attr.name === 'src' && val.startsWith('/')) {
+            val = '/assets/alazab_portal/dist' + val;
+          }
+          s.setAttribute(attr.name, val);
+        }
+        document.body.appendChild(s);
+      });
+    } catch (err) {
+      document.getElementById('root').innerHTML =
+        '<div style="padding:2rem;font-family:system-ui;text-align:center">' +
+        '<h2>⚠️ Al-Azab Portal not built</h2>' +
+        '<p>' + (err && err.message ? err.message : 'Unknown error') + '</p>' +
+        '</div>';
+    }
+  })();
+</script>
+{% endblock %}
+
+{% block style %}
+<style>
+  body, html { margin: 0; padding: 0; height: 100%; }
+  #root { min-height: 100vh; }
+  /* Hide Frappe's default web layout chrome on the SPA page */
+  .navbar, .web-footer, .breadcrumb-container { display: none !important; }
+  main, .page_content { padding: 0 !important; max-width: none !important; }
+</style>
+{% endblock %}

@@ -1,0 +1,20 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.toml
+recursive-include alazab_portal *.css
+recursive-include alazab_portal *.csv
+recursive-include alazab_portal *.html
+recursive-include alazab_portal *.ico
+recursive-include alazab_portal *.js
+recursive-include alazab_portal *.json
+recursive-include alazab_portal *.md
+recursive-include alazab_portal *.png
+recursive-include alazab_portal *.py
+recursive-include alazab_portal *.svg
+recursive-include alazab_portal *.txt
+recursive-include alazab_portal *.woff
+recursive-include alazab_portal *.woff2
+recursive-exclude alazab_portal *.pyc

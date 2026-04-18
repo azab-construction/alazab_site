@@ -5,6 +5,9 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // When building for Frappe deployment, set BUILD_TARGET=frappe
+  // → assets resolve under /assets/alazab_portal/dist/
+  base: process.env.BUILD_TARGET === "frappe" ? "/assets/alazab_portal/dist/" : "/",
   server: {
     host: "::",
     port: 8080,
