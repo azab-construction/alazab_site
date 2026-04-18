@@ -1,0 +1,48 @@
+# ============================================
+# Docker Compose for production deployment
+# alongside frappe-bench
+# ============================================
+#
+# Usage:
+#   1) Copy .env.example -> .env and fill values
+#   2) docker compose up -d --build
+#   3) Configure frappe nginx (or host nginx) to
+#      reverse-proxy your domain to web:80
+#
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+        VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY}
+        VITE_SUPABASE_PROJECT_ID: ${VITE_SUPABASE_PROJECT_ID}
+    image: alazab-web:latest
+    container_name: alazab-web
+    restart: unless-stopped
+    ports:
+      # Expose only on localhost; frappe nginx will proxy to it
+      - "127.0.0.1:8085:80"
+    networks:
+      - frappe-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  # Attach to the same network as frappe-bench containers
+  # so frappe's nginx can reach this service by name.
+  frappe-network:
+    external: true
+    name: frappe_default

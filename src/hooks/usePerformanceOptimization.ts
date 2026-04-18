@@ -47,8 +47,8 @@ export function usePerformanceOptimization() {
       if (usage > 0.8) {
         console.warn('High memory usage detected:', usage);
         // تنظيف الذاكرة إذا أمكن
-        if (typeof window.gc === 'function') {
-          window.gc();
+        if (typeof (window as any).gc === 'function') {
+          (window as any).gc();
         }
       }
     }

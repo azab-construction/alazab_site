@@ -51,7 +51,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 نعتذر، حدث خطأ أثناء تشغيل التطبيق. يرجى المحاولة مرة أخرى.
               </p>
               
-              {process.env.NODE_ENV === 'development' && this.state.error && (
+              {import.meta.env.DEV && this.state.error && (
                 <details className="text-left text-xs bg-muted p-2 rounded">
                   <summary className="cursor-pointer font-medium">
                     تفاصيل الخطأ (وضع التطوير)

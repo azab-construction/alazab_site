@@ -1,0 +1,44 @@
+# ============================================
+# Example: Add this to your frappe-bench nginx
+# to reverse-proxy a domain/subdomain to the
+# React app container.
+#
+# Path: frappe-bench/config/nginx.conf  (or
+# a custom site config included by it)
+# ============================================
+
+upstream alazab_app {
+    server alazab-web:80;   # docker service name on shared network
+    # If not on shared docker network, use:
+    # server 127.0.0.1:8085;
+    keepalive 32;
+}
+
+server {
+    listen 80;
+    server_name app.example.com;   # <-- change to your domain
+
+    # Redirect to HTTPS (after you install certs via certbot)
+    # return 301 https://$host$request_uri;
+
+    location / {
+        proxy_pass http://alazab_app;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Connection        "";
+        proxy_read_timeout 60s;
+        proxy_connect_timeout 10s;
+    }
+}
+
+# After enabling HTTPS via certbot:
+# server {
+#     listen 443 ssl http2;
+#     server_name app.example.com;
+#     ssl_certificate     /etc/letsencrypt/live/app.example.com/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/app.example.com/privkey.pem;
+#     # ... same location block as above ...
+# }
