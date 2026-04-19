@@ -2313,6 +2313,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           created_at: string | null
@@ -2613,6 +2634,13 @@ export type Database = {
         }[]
       }
       get_daily_summary: { Args: { report_date: string }; Returns: Json }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       insecure_function: { Args: never; Returns: string }
       is_admin_user: { Args: never; Returns: boolean }
       is_staff: { Args: never; Returns: boolean }
@@ -2633,6 +2661,7 @@ export type Database = {
       secure_function: { Args: never; Returns: string }
     }
     Enums: {
+      app_role: "admin" | "moderator" | "user"
       contact_role: "service" | "accounting" | "finance" | "owner"
       priority_type: "normal" | "emergency"
       rate_tier: "standard" | "specialty"
@@ -2777,6 +2806,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "moderator", "user"],
       contact_role: ["service", "accounting", "finance", "owner"],
       priority_type: ["normal", "emergency"],
       rate_tier: ["standard", "specialty"],
