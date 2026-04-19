@@ -52,7 +52,9 @@ export const useQuickFormSubmit = () => {
         ? parseFloat(formData.estimatedCost)
         : null;
       
-      // إنشاء كائن البيانات بدون الحقول التي تسبب مشاكل
+      // Attach current user id to honor RLS owner-scoped policies (if logged in)
+      const { data: { user } } = await supabase.auth.getUser();
+
       const requestData = {
         title: formData.title,
         service_type: formData.serviceType,
@@ -61,18 +63,17 @@ export const useQuickFormSubmit = () => {
         scheduled_date: formData.requestedDate,
         estimated_cost: estimatedCost,
         status: 'pending',
-        store_id: storeId
+        store_id: storeId,
+        created_by: user?.id ?? null,
       };
 
-      console.log('useQuickFormSubmit: بيانات الطلب المرسل', requestData);
-        
       const { data: insertedRequest, error: dbError } = await supabase
         .from('maintenance_requests')
         .insert(requestData)
         .select();
-        
+
       if (dbError) {
-        console.error('useQuickFormSubmit: خطأ في حفظ بيانات الطلب:', dbError);
+        if (import.meta.env.DEV) console.error('[maintenance insert]', dbError);
         throw new Error('فشل في حفظ الطلب');
       }
       
