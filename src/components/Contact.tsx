@@ -1,24 +1,48 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import CompanyLocations from "./CompanyLocations";
 import CompanyLinks from "./CompanyLinks";
+import { contactSchema } from "@/lib/validation";
+import { sanitizeInput } from "@/utils/security";
 
 const Contact: React.FC = () => {
   const { toast } = useToast();
-  
+  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm((p) => ({ ...p, [e.target.id]: e.target.value }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // In a real application, you would send the form data to your backend
+
+    const parsed = contactSchema.safeParse({
+      name: sanitizeInput(form.name),
+      email: sanitizeInput(form.email),
+      phone: sanitizeInput(form.phone),
+      subject: sanitizeInput(form.subject),
+      message: sanitizeInput(form.message),
+    });
+
+    if (!parsed.success) {
+      toast({
+        title: "بيانات غير صالحة",
+        description: parsed.error.issues[0]?.message ?? "يرجى التحقق من البيانات",
+        variant: "destructive",
+      });
+      return;
+    }
+
     toast({
       title: "تم إرسال الرسالة",
       description: "سنقوم بالرد عليك في أقرب وقت ممكن.",
       duration: 5000,
     });
+    setForm({ name: '', email: '', phone: '', subject: '', message: '' });
   };
   
   return (
@@ -97,27 +121,27 @@ const Contact: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">الاسم الكامل</label>
-                    <Input id="name" placeholder="أدخل اسمك" className="w-full" />
+                    <Input id="name" value={form.name} onChange={handleChange} maxLength={100} placeholder="أدخل اسمك" className="w-full" required />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">البريد الإلكتروني</label>
-                    <Input id="email" type="email" placeholder="أدخل بريدك الإلكتروني" className="w-full" />
+                    <Input id="email" type="email" value={form.email} onChange={handleChange} maxLength={254} placeholder="أدخل بريدك الإلكتروني" className="w-full" required />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">رقم الهاتف</label>
-                  <Input id="phone" placeholder="أدخل رقم هاتفك" className="w-full" />
+                  <Input id="phone" value={form.phone} onChange={handleChange} maxLength={20} placeholder="أدخل رقم هاتفك" className="w-full" />
                 </div>
-                
+
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">الموضوع</label>
-                  <Input id="subject" placeholder="موضوع الرسالة" className="w-full" />
+                  <Input id="subject" value={form.subject} onChange={handleChange} maxLength={200} placeholder="موضوع الرسالة" className="w-full" required />
                 </div>
-                
+
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">الرسالة</label>
-                  <Textarea id="message" placeholder="اكتب رسالتك هنا" className="w-full min-h-[120px]" />
+                  <Textarea id="message" value={form.message} onChange={handleChange} maxLength={2000} placeholder="اكتب رسالتك هنا" className="w-full min-h-[120px]" required />
                 </div>
                 
                 <Button type="submit" className="w-full bg-construction-primary hover:bg-construction-dark text-white">

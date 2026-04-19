@@ -40,7 +40,7 @@ const CreateStorageBucket: React.FC = () => {
       const { data, error } = await supabase
         .storage
         .createBucket('projects', {
-          public: true,
+          public: false, // private — access via signed URLs only
           fileSizeLimit: 10485760, // 10 ميجابايت
         });
       

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +5,9 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import AuthCard from './AuthCard';
+import { loginSchema } from '@/lib/validation';
+import { getSafeErrorMessage } from '@/utils/errorHandler';
+import { sanitizeInput } from '@/utils/security';
 
 interface LoginFormProps {
   onSwitchToSignup: () => void;
@@ -20,31 +22,41 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
 
+    const parsed = loginSchema.safeParse({
+      email: sanitizeInput(email),
+      password,
+    });
+    if (!parsed.success) {
+      toast({
+        title: "بيانات غير صالحة",
+        description: parsed.error.issues[0]?.message ?? "يرجى التحقق من البيانات",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
     try {
       const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: parsed.data.email,
+        password: parsed.data.password,
       });
 
       if (error) {
         toast({
           title: "خطأ في تسجيل الدخول",
-          description: error.message,
+          description: getSafeErrorMessage(error, "البريد الإلكتروني أو كلمة المرور غير صحيحة"),
           variant: "destructive",
         });
       } else {
-        toast({
-          title: "تم تسجيل الدخول بنجاح",
-          description: "مرحباً بك مرة أخرى!",
-        });
+        toast({ title: "تم تسجيل الدخول بنجاح", description: "مرحباً بك مرة أخرى!" });
         onSuccess();
       }
     } catch (error) {
       toast({
         title: "خطأ غير متوقع",
-        description: "حدث خطأ أثناء تسجيل الدخول",
+        description: getSafeErrorMessage(error),
         variant: "destructive",
       });
     } finally {
@@ -63,11 +75,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            maxLength={254}
+            autoComplete="email"
             className="text-right"
             dir="ltr"
           />
         </div>
-        
+
         <div className="space-y-2">
           <Label htmlFor="password">كلمة المرور</Label>
           <Input
@@ -76,13 +90,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            maxLength={128}
+            autoComplete="current-password"
             className="text-right"
             dir="ltr"
           />
         </div>
 
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           className="w-full bg-construction-primary hover:bg-construction-secondary text-white"
           disabled={loading}
         >
