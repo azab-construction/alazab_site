@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PageLayout from '@/components/layout/PageLayout';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Bot, Send, X, MessageSquare, Mic, Phone, Keyboard, ChevronDown, Volume2, Headphones } from 'lucide-react';
+import { Bot, Send, X, MessageSquare, Mic, Phone, Keyboard, ChevronDown, Volume2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { supabase } from '@/integrations/supabase/client';
-import { useConversation } from '@elevenlabs/react';
+import { ConversationProvider, useConversation } from '@elevenlabs/react';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
@@ -24,7 +24,7 @@ const QUICK_PROMPTS = [
 
 const ELEVENLABS_AGENT_ID = 'agent_0201kndt6qg6ekxrtwcx5ea90ezr';
 
-const ChatbotPage: React.FC = () => {
+const ChatbotPageContent: React.FC = () => {
   const [tab, setTab] = useState<'text' | 'voice'>('text');
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -32,11 +32,7 @@ const ChatbotPage: React.FC = () => {
   const [voiceConnecting, setVoiceConnecting] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const conversation = useConversation({
-    onConnect: () => toast({ title: 'متصل', description: 'بدأت المحادثة الصوتية مع عزبوت' }),
-    onDisconnect: () => toast({ title: 'انتهت المحادثة' }),
-    onError: (e) => toast({ variant: 'destructive', title: 'خطأ', description: String(e) }),
-  });
+  const conversation = useConversation();
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
@@ -305,6 +301,18 @@ const ChatbotPage: React.FC = () => {
         </p>
       </div>
     </PageLayout>
+  );
+};
+
+const ChatbotPage: React.FC = () => {
+  return (
+    <ConversationProvider
+      onConnect={() => toast({ title: 'متصل', description: 'بدأت المحادثة الصوتية مع عزبوت' })}
+      onDisconnect={() => toast({ title: 'انتهت المحادثة' })}
+      onError={(e) => toast({ variant: 'destructive', title: 'خطأ', description: String(e) })}
+    >
+      <ChatbotPageContent />
+    </ConversationProvider>
   );
 };
 
