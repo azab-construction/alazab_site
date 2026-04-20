@@ -34,6 +34,10 @@ import UberFixPage from "./pages/services/UberFixPage";
 import BrandIdentityPage from "./pages/services/BrandIdentityPage";
 import LuxuryFinishingPage from "./pages/services/LuxuryFinishingPage";
 import MaterialPricesPage from "./pages/MaterialPricesPage";
+import PrivacyPolicyPage from "./pages/legal/PrivacyPolicyPage";
+import TermsOfServicePage from "./pages/legal/TermsOfServicePage";
+import RefundPolicyPage from "./pages/legal/RefundPolicyPage";
+import ChatbotFloatingButton from "./components/ChatbotFloatingButton";
 
 // Detect deployment basename:
 // - Frappe build: Vite injects BASE_URL = "/assets/alazab_portal/dist/"
