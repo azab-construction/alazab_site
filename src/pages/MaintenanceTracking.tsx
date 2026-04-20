@@ -46,7 +46,7 @@ const MaintenanceTracking: React.FC = () => {
         variant: "default"
       });
     } catch (error) {
-      console.error('خطأ في جلب بيانات الطلب:', error);
+      if (import.meta.env.DEV) console.error('خطأ في جلب بيانات الطلب:', error);
       toast({
         title: "تعذر العثور على الطلب",
         description: "الرجاء التأكد من رقم الطلب والمحاولة مرة أخرى",
@@ -91,7 +91,7 @@ const MaintenanceTracking: React.FC = () => {
       });
       
     } catch (error) {
-      console.error('خطأ في تحديث الحالة:', error);
+      if (import.meta.env.DEV) console.error('خطأ في تحديث الحالة:', error);
       toast({
         title: "خطأ في تحديث الحالة",
         description: "حدث خطأ أثناء محاولة تحديث حالة الطلب",

@@ -9,6 +9,7 @@ import { toast } from "@/components/ui/use-toast";
 import { MaintenanceStep, MaintenanceRequest, MaintenanceRequestDB, AttachmentDB } from '@/types/maintenance';
 import { sendEmail } from '@/lib/emailjs';
 import { supabase } from '@/integrations/supabase/client';
+import { sanitizeInput } from '@/utils/security';
 import { useNavigate } from 'react-router-dom';
 import { Wrench } from 'lucide-react';
 
@@ -89,9 +90,9 @@ const MaintenancePage: React.FC = () => {
       
       // حفظ المعلومات في قاعدة البيانات مع تعطيل RLS مؤقتاً
       const requestData: MaintenanceRequestDB = {
-        title: formData.title,
-        service_type: formData.serviceType,
-        description: formData.description,
+        title: sanitizeInput(formData.title),
+        service_type: sanitizeInput(formData.serviceType),
+        description: sanitizeInput(formData.description),
         priority: formData.priority,
         scheduled_date: formData.requestedDate,
         estimated_cost: estimatedCost,
@@ -107,9 +108,9 @@ const MaintenancePage: React.FC = () => {
         .select();
         
       if (dbError) {
-        console.error('خطأ في حفظ بيانات الطلب:', dbError);
+        if (import.meta.env.DEV) console.error('خطأ في حفظ بيانات الطلب:', dbError);
         // في حالة فشل قاعدة البيانات، نستخدم رقم الطلب المولد محلياً
-        console.log('استخدام رقم الطلب المحلي:', reqNumber);
+        if (import.meta.env.DEV) console.log('استخدام رقم الطلب المحلي:', reqNumber);
       }
       
       const requestId = insertedRequest && insertedRequest[0] ? insertedRequest[0].id : reqNumber;
@@ -122,7 +123,7 @@ const MaintenancePage: React.FC = () => {
           .upload(fileName, file);
         
         if (error) {
-          console.error('خطأ في رفع المرفق:', error);
+          if (import.meta.env.DEV) console.error('خطأ في رفع المرفق:', error);
           return null;
         }
         
@@ -151,7 +152,7 @@ const MaintenancePage: React.FC = () => {
           .insert(attachmentsData);
           
         if (attachError) {
-          console.error('خطأ في حفظ بيانات المرفقات:', attachError);
+          if (import.meta.env.DEV) console.error('خطأ في حفظ بيانات المرفقات:', attachError);
         }
       }
       
@@ -171,7 +172,7 @@ const MaintenancePage: React.FC = () => {
       try {
         await sendEmail(emailParams);
       } catch (emailError) {
-        console.error('خطأ في إرسال البريد الإلكتروني:', emailError);
+        if (import.meta.env.DEV) console.error('خطأ في إرسال البريد الإلكتروني:', emailError);
         // لن نوقف العملية إذا فشل إرسال البريد الإلكتروني
       }
       
@@ -185,7 +186,7 @@ const MaintenancePage: React.FC = () => {
       setRequestNumber(requestId);
       nextStep();
     } catch (error) {
-      console.error('خطأ في إرسال الطلب:', error);
+      if (import.meta.env.DEV) console.error('خطأ في إرسال الطلب:', error);
       toast({
         title: "حدث خطأ",
         description: "لم نتمكن من إرسال طلبك. الرجاء المحاولة مرة أخرى.",
