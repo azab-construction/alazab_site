@@ -1,0 +1,3 @@
+# Python dependencies for alazab_portal Frappe app.
+# Frappe itself is provided by the bench environment.
+frappe
