@@ -51,7 +51,7 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ formData, updateFormData,
           variant: "default",
         });
       } catch (error) {
-        console.error('خطأ في جلب البيانات:', error);
+        if (import.meta.env.DEV) console.error('خطأ في جلب البيانات:', error);
         toast({
           title: "خطأ في تحميل البيانات",
           description: "سيتم استخدام البيانات الافتراضية",

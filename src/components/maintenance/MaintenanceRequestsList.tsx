@@ -113,7 +113,7 @@ const MaintenanceRequestsList: React.FC<MaintenanceRequestsListProps> = ({
       }
       
     } catch (error) {
-      console.error('خطأ في تحديث الحالة:', error);
+      if (import.meta.env.DEV) console.error('خطأ في تحديث الحالة:', error);
       toast({
         title: "خطأ في تحديث الحالة",
         description: "حدث خطأ أثناء محاولة تحديث حالة الطلب",

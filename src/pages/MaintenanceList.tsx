@@ -33,7 +33,7 @@ const MaintenanceList: React.FC = () => {
       setRequests(data || []);
       setFilteredRequests(data || []);
     } catch (error) {
-      console.error('خطأ في جلب طلبات الصيانة:', error);
+      if (import.meta.env.DEV) console.error('خطأ في جلب طلبات الصيانة:', error);
       toast({
         title: "تعذر جلب الطلبات",
         description: "حدث خطأ أثناء محاولة جلب طلبات الصيانة",
