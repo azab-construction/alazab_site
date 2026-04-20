@@ -123,42 +123,66 @@ Deno.serve(async (req) => {
       });
     }
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          ...messages,
-        ],
-      }),
-    });
+    const convo: any[] = [
+      { role: "system", content: SYSTEM_PROMPT },
+      ...messages,
+    ];
 
-    if (response.status === 429) {
-      return new Response(JSON.stringify({ error: "تم تجاوز الحد المسموح، حاول لاحقاً." }), {
-        status: 429,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+    for (let round = 0; round < 4; round++) {
+      const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: convo,
+          tools: TOOLS,
+        }),
       });
-    }
-    if (response.status === 402) {
-      return new Response(JSON.stringify({ error: "نفدت الرصيد. يرجى إضافة رصيد." }), {
-        status: 402,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-    if (!response.ok) {
-      const txt = await response.text();
-      throw new Error(`AI gateway error: ${response.status} ${txt}`);
+
+      if (response.status === 429) {
+        return new Response(JSON.stringify({ error: "تم تجاوز الحد المسموح، حاول لاحقاً." }), {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (response.status === 402) {
+        return new Response(JSON.stringify({ error: "نفدت الرصيد. يرجى إضافة رصيد." }), {
+          status: 402,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (!response.ok) {
+        const txt = await response.text();
+        throw new Error(`AI gateway error: ${response.status} ${txt}`);
+      }
+
+      const data = await response.json();
+      const msg = data.choices?.[0]?.message;
+      const toolCalls = msg?.tool_calls;
+
+      if (!toolCalls || toolCalls.length === 0) {
+        return new Response(JSON.stringify({ reply: msg?.content ?? "" }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      convo.push(msg);
+      for (const tc of toolCalls) {
+        let args: Record<string, unknown> = {};
+        try { args = JSON.parse(tc.function?.arguments ?? "{}"); } catch { /* ignore */ }
+        const result = await executeTool(tc.function?.name, args);
+        convo.push({
+          role: "tool",
+          tool_call_id: tc.id,
+          content: result,
+        });
+      }
     }
 
-    const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content ?? "";
-
-    return new Response(JSON.stringify({ reply }), {
+    return new Response(JSON.stringify({ reply: "تعذّر إكمال العملية، حاول مجدداً." }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
