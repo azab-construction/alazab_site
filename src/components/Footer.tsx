@@ -113,10 +113,29 @@ const Footer: React.FC = () => {
 
         <hr className="border-construction-light/30 my-8" />
 
+        {/* Legal Links */}
+        <nav aria-label="روابط قانونية" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-6 text-sm">
+          <Link to="/privacy-policy" className="text-construction-light hover:text-white transition-colors">
+            سياسة الخصوصية
+          </Link>
+          <span className="text-construction-light/40">•</span>
+          <Link to="/terms" className="text-construction-light hover:text-white transition-colors">
+            الشروط والأحكام
+          </Link>
+          <span className="text-construction-light/40">•</span>
+          <Link to="/refund-policy" className="text-construction-light hover:text-white transition-colors">
+            سياسة الاسترداد
+          </Link>
+          <span className="text-construction-light/40">•</span>
+          <Link to="/chatbot" className="text-construction-light hover:text-white transition-colors">
+            المساعد الذكي عزبوت
+          </Link>
+        </nav>
+
         {/* Copyright */}
         <div className="text-center text-construction-light text-sm">
           <p className="mb-2">
-            جميع الحقوق محفوظة © 2024 العزب للمقاولات والتشطيبات
+            جميع الحقوق محفوظة © {new Date().getFullYear()} العزب للمقاولات والتشطيبات
           </p>
           <p className="text-xs leading-relaxed">
             العزب للإنشاءات - علامة تجارية مسجلة D-U-N-S No: 849203826

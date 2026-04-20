@@ -118,8 +118,12 @@ function App() {
             <MaintenanceReports />
           </ProtectedRoute>
         } />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms" element={<TermsOfServicePage />} />
+        <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ChatbotFloatingButton />
       <Toaster />
     </BrowserRouter>
   );
