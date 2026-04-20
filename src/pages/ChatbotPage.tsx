@@ -22,7 +22,7 @@ const QUICK_PROMPTS = [
   'ما هي فروع الشركة؟',
 ];
 
-const ELEVENLABS_AGENT_ID = ''; // ضع agent_id الخاص بـ ElevenLabs هنا لتفعيل المحادثة الصوتية الحقيقية
+const ELEVENLABS_AGENT_ID = 'agent_0201kndt6qg6ekxrtwcx5ea90ezr';
 
 const ChatbotPage: React.FC = () => {
   const [tab, setTab] = useState<'text' | 'voice'>('text');
