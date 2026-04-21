@@ -330,10 +330,10 @@ const ChatbotDialog: React.FC<Props> = ({ open, onOpenChange }) => {
         className="p-0 gap-0 overflow-hidden border-0 rounded-3xl max-w-md w-[calc(100%-2rem)] h-[600px] max-h-[90vh] [&>button]:hidden"
         style={chatbotTheme}
       >
-        <VisuallyHidden>
-          <DialogTitle>عزبوت — المساعد الذكي</DialogTitle>
-          <DialogDescription>محادثة نصية أو صوتية مع المساعد الذكي لشركة العزب</DialogDescription>
-        </VisuallyHidden>
+        <DialogTitle className="sr-only">عزبوت — المساعد الذكي</DialogTitle>
+        <DialogDescription className="sr-only">
+          محادثة نصية أو صوتية مع المساعد الذكي لشركة العزب
+        </DialogDescription>
         <ConversationProvider
           onConnect={() => toast({ title: 'متصل', description: 'بدأت المحادثة الصوتية مع عزبوت' })}
           onDisconnect={() => toast({ title: 'انتهت المحادثة' })}
