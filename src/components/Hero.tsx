@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { StatsCard } from '@/components/cards';
+import { COMPANY_INFO, HERO_STATS } from '@/constants/data';
 
 const Hero: React.FC = () => {
   return (
@@ -9,7 +11,7 @@ const Hero: React.FC = () => {
       <div 
         className="absolute inset-0 z-0" 
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2370&auto=format&fit=crop')", 
+          backgroundImage: `url('${COMPANY_INFO.heroBackgroundImage}')`, 
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -24,7 +26,7 @@ const Hero: React.FC = () => {
             نبني <span className="text-construction-accent">مستقبلك</span> بأمان
           </h1>
           <p className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
-            شركة العزب للمقاولات العامة، خبرة أكثر من 20 عامًا في المجال، نقدم خدمات متكاملة في البناء والتشييد بأعلى معايير الجودة
+            {COMPANY_INFO.heroSubtitle}
           </p>
           <div className="flex flex-wrap gap-4">
             <Button className="bg-construction-accent hover:bg-construction-accent/90 text-white text-base px-6 py-3">
@@ -37,22 +39,14 @@ const Hero: React.FC = () => {
           
           {/* Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
-            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg">
-              <div className="text-2xl md:text-3xl font-bold text-construction-accent">+300</div>
-              <div className="text-sm md:text-base text-white">مشروع منجز</div>
-            </div>
-            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg">
-              <div className="text-2xl md:text-3xl font-bold text-construction-accent">20+</div>
-              <div className="text-sm md:text-base text-white">سنوات خبرة</div>
-            </div>
-            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg">
-              <div className="text-2xl md:text-3xl font-bold text-construction-accent">150+</div>
-              <div className="text-sm md:text-base text-white">عميل سعيد</div>
-            </div>
-            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg">
-              <div className="text-2xl md:text-3xl font-bold text-construction-accent">50+</div>
-              <div className="text-sm md:text-base text-white">عامل محترف</div>
-            </div>
+            {HERO_STATS.map((stat, index) => (
+              <StatsCard 
+                key={index}
+                number={stat.number}
+                label={stat.label}
+                variant="hero"
+              />
+            ))}
           </div>
         </div>
       </div>

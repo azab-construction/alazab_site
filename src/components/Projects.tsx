@@ -3,84 +3,18 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Search, MapPin, ArrowLeft } from "lucide-react";
-import { LazyImage } from "@/components/ui/lazy-image";
-
-const projectCategories = [
-  "جميع المشاريع",
-  "المباني السكنية",
-  "المباني التجارية",
-  "الفلل الخاصة",
-  "المجمعات السكنية"
-];
-
-const projects = [
-  {
-    id: 1,
-    title: "برج الأمير السكني",
-    category: "المباني السكنية",
-    image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2670&auto=format&fit=crop",
-    location: "الرياض، المملكة العربية السعودية",
-    year: "2023",
-    client: "شركة الأمير للاستثمار العقاري",
-    featured: true
-  },
-  {
-    id: 2,
-    title: "مجمع التميز التجاري",
-    category: "المباني التجارية",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop",
-    location: "جدة، المملكة العربية السعودية",
-    year: "2022",
-    client: "مجموعة التميز"
-  },
-  {
-    id: 3,
-    title: "فيلا الواحة الخضراء",
-    category: "الفلل الخاصة",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2675&auto=format&fit=crop",
-    location: "الدمام، المملكة العربية السعودية",
-    year: "2024",
-    client: "عائلة السعيد"
-  },
-  {
-    id: 4,
-    title: "مجمع النخيل السكني",
-    category: "المجمعات السكنية",
-    image: "https://images.unsplash.com/photo-1517059224940-d4af9eec41b7?q=80&w=2605&auto=format&fit=crop",
-    location: "الخبر، المملكة العربية السعودية",
-    year: "2023",
-    client: "شركة النخيل للعقارات",
-    featured: true
-  },
-  {
-    id: 5,
-    title: "برج المستقبل",
-    category: "المباني التجارية",
-    image: "https://images.unsplash.com/photo-1693314212095-3659d9ca30c9?q=80&w=2574&auto=format&fit=crop",
-    location: "مكة، المملكة العربية السعودية",
-    year: "2021",
-    client: "هيئة تطوير مكة المكرمة"
-  },
-  {
-    id: 6,
-    title: "مجمع الأندلس",
-    category: "المجمعات السكنية",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2573&auto=format&fit=crop",
-    location: "المدينة المنورة، المملكة العربية السعودية",
-    year: "2022",
-    client: "شركة إعمار"
-  }
-];
+import { Search, ArrowLeft } from "lucide-react";
+import { ProjectCard } from "@/components/cards";
+import { PROJECTS, PROJECT_CATEGORIES } from "@/constants/data";
 
 const Projects: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState("جميع المشاريع");
+  const [activeCategory, setActiveCategory] = useState(PROJECT_CATEGORIES[0]);
   const [searchTerm, setSearchTerm] = useState("");
 
   // استخدام useMemo لتحسين الأداء
   const filteredProjects = useMemo(() => {
-    return projects.filter(project => {
-      const matchesCategory = activeCategory === "جميع المشاريع" || project.category === activeCategory;
+    return PROJECTS.filter(project => {
+      const matchesCategory = activeCategory === PROJECT_CATEGORIES[0] || project.category === activeCategory;
       const matchesSearch = project.title.includes(searchTerm) || 
                             project.location.includes(searchTerm) || 
                             project.category.includes(searchTerm);
@@ -153,13 +87,13 @@ const Projects: React.FC = () => {
             {/* أزرار التصفية */}
             <div className="w-full lg:flex-1 lg:mr-6">
               <Tabs 
-                defaultValue="جميع المشاريع" 
+                defaultValue={PROJECT_CATEGORIES[0]}
                 value={activeCategory}
                 onValueChange={setActiveCategory}
                 className="w-full"
               >
                 <TabsList className="bg-gray-100 p-1 flex flex-wrap justify-center lg:justify-end w-full">
-                  {projectCategories.map((category) => (
+                  {PROJECT_CATEGORIES.map((category) => (
                     <TabsTrigger 
                       key={category}
                       value={category}
@@ -175,46 +109,21 @@ const Projects: React.FC = () => {
         </div>
         
         {/* مشاريع مميزة */}
-        {!searchTerm && activeCategory === "جميع المشاريع" && (
+        {!searchTerm && activeCategory === PROJECT_CATEGORIES[0] && (
           <div className="mb-16">
             <h3 className="text-2xl font-bold mb-8 text-construction-primary flex items-center gap-2">
               <span className="w-1 h-8 bg-construction-accent rounded-full"></span>
               مشاريع مميزة
             </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {projects
+              {PROJECTS
                 .filter(project => project.featured)
                 .map(project => (
-                  <article key={`featured-${project.id}`} className="group relative overflow-hidden rounded-xl shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10"></div>
-                    <LazyImage 
-                      src={project.image} 
-                      alt={project.title} 
-                      className="w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 z-20 flex flex-col justify-end p-8 text-white">
-                      <div className="bg-construction-accent/90 backdrop-blur-sm text-white text-xs py-2 px-4 rounded-full absolute top-6 right-6 font-medium">
-                        {project.category}
-                      </div>
-                      <h3 className="text-3xl font-bold mb-3">{project.title}</h3>
-                      <div className="flex items-center gap-2 mb-3">
-                        <MapPin size={18} aria-hidden="true" />
-                        <span className="text-lg">{project.location}</span>
-                      </div>
-                      <div className="flex items-center gap-4 mb-6">
-                        <span className="text-sm bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg">سنة: {project.year}</span>
-                        <span className="text-sm bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg">العميل: {project.client}</span>
-                      </div>
-                      <Link 
-                        to={`/projects-gallery/${project.id}`} 
-                        className="flex items-center gap-2 bg-white text-construction-primary font-bold py-3 px-6 rounded-lg transition-all hover:bg-construction-accent hover:text-white self-start group-hover:scale-105"
-                        aria-label={`عرض تفاصيل مشروع ${project.title}`}
-                      >
-                        تفاصيل المشروع
-                        <ArrowLeft size={18} aria-hidden="true" />
-                      </Link>
-                    </div>
-                  </article>
+                  <ProjectCard 
+                    key={`featured-${project.id}`} 
+                    project={project} 
+                    featured={true}
+                  />
                 ))}
             </div>
           </div>
@@ -227,7 +136,7 @@ const Projects: React.FC = () => {
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-xl font-bold text-construction-primary">
                   {searchTerm ? `نتائج البحث عن: "${searchTerm}"` : 
-                   activeCategory === "جميع المشاريع" ? "جميع المشاريع" : activeCategory}
+                   activeCategory === PROJECT_CATEGORIES[0] ? "جميع المشاريع" : activeCategory}
                 </h3>
                 <span className="text-gray-500 text-sm" aria-live="polite">
                   {filteredProjects.length} مشروع
@@ -236,35 +145,11 @@ const Projects: React.FC = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list">
                 {filteredProjects.map((project) => (
-                  <article 
+                  <ProjectCard 
                     key={project.id} 
-                    className="project-card group relative overflow-hidden rounded-xl shadow-md opacity-0 translate-y-8 transition-all duration-500 hover:shadow-xl"
-                    role="listitem"
-                  >
-                    <Link 
-                      to={`/projects-gallery/${project.id}`}
-                      aria-label={`عرض تفاصيل مشروع ${project.title}`}
-                    >
-                      <LazyImage 
-                        src={project.image} 
-                        alt={project.title} 
-                        className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
-                        <h3 className="text-white text-xl font-bold mb-2 group-hover:text-construction-accent transition-colors">{project.title}</h3>
-                        <div className="flex items-center gap-2 text-gray-300 mb-2">
-                          <MapPin size={16} aria-hidden="true" />
-                          <p className="text-sm">{project.location}</p>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="bg-construction-accent text-white text-xs py-1 px-3 rounded-full font-medium">
-                            {project.category}
-                          </div>
-                          <span className="text-white/80 text-xs">{project.year}</span>
-                        </div>
-                      </div>
-                    </Link>
-                  </article>
+                    project={project}
+                    featured={false}
+                  />
                 ))}
               </div>
             </>
@@ -280,7 +165,7 @@ const Projects: React.FC = () => {
               <Button 
                 onClick={() => {
                   setSearchTerm("");
-                  setActiveCategory("جميع المشاريع");
+                  setActiveCategory(PROJECT_CATEGORIES[0]);
                 }}
                 variant="outline"
                 className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white"

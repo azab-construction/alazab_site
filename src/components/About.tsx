@@ -2,39 +2,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { StatsCard, ValueCard } from '@/components/cards';
+import { ACHIEVEMENTS, COMPANY_VALUES, QUALITY_CERTIFICATIONS, COMPANY_INFO } from '@/constants/data';
 
 const About: React.FC = () => {
-  const achievements = [
-    { number: "20+", label: "سنة من الخبرة" },
-    { number: "500+", label: "مشروع منجز" },
-    { number: "100+", label: "عميل راضي" },
-    { number: "3", label: "فروع في دول مختلفة" }
-  ];
-
-  const values = [
-    {
-      title: "الجودة العالية",
-      description: "نلتزم بأعلى معايير الجودة في جميع مشاريعنا",
-      icon: "🏆"
-    },
-    {
-      title: "الالتزام بالمواعيد",
-      description: "نحترم مواعيد التسليم ونلتزم بالجداول الزمنية المحددة",
-      icon: "⏰"
-    },
-    {
-      title: "الابتكار المستمر",
-      description: "نستخدم أحدث التقنيات والطرق في مجال البناء",
-      icon: "💡"
-    },
-    {
-      title: "فريق محترف",
-      description: "فريق من المهندسين والخبراء المتخصصين",
-      icon: "👥"
-    }
-  ];
 
   return (
     <section id="about" className="section bg-construction-light">
@@ -75,17 +47,13 @@ const About: React.FC = () => {
 
         {/* إحصائيات الشركة */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-          {achievements.map((achievement, index) => (
-            <Card key={index} className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="text-2xl md:text-3xl font-bold text-construction-primary mb-2">
-                  {achievement.number}
-                </div>
-                <div className="text-sm md:text-base text-gray-600 font-medium">
-                  {achievement.label}
-                </div>
-              </CardContent>
-            </Card>
+          {ACHIEVEMENTS.map((achievement, index) => (
+            <StatsCard 
+              key={index}
+              number={achievement.number}
+              label={achievement.label}
+              variant="achievement"
+            />
           ))}
         </div>
 
@@ -98,18 +66,8 @@ const About: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {values.map((value, index) => (
-            <Card key={index} className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="text-3xl mb-4">{value.icon}</div>
-                <h4 className="card-title text-lg mb-3">
-                  {value.title}
-                </h4>
-                <p className="card-content text-sm">
-                  {value.description}
-                </p>
-              </CardContent>
-            </Card>
+          {COMPANY_VALUES.map((value, index) => (
+            <ValueCard key={index} value={value} />
           ))}
         </div>
 
@@ -125,18 +83,11 @@ const About: React.FC = () => {
           </div>
           
           <div className="flex flex-wrap justify-center gap-4">
-            <Badge variant="outline" className="px-4 py-2 text-sm">
-              ISO 9001:2015
-            </Badge>
-            <Badge variant="outline" className="px-4 py-2 text-sm">
-              شهادة الغرفة التجارية
-            </Badge>
-            <Badge variant="outline" className="px-4 py-2 text-sm">
-              عضوية جمعية المهندسين
-            </Badge>
-            <Badge variant="outline" className="px-4 py-2 text-sm">
-              اعتماد وزارة الإسكان
-            </Badge>
+            {QUALITY_CERTIFICATIONS.map((cert, index) => (
+              <Badge key={index} variant="outline" className="px-4 py-2 text-sm">
+                {cert}
+              </Badge>
+            ))}
           </div>
         </div>
       </div>
