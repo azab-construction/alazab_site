@@ -1,5 +1,8 @@
-import { supabase } from '@/integrations/supabase/client';
+import { supabase as _supabase } from '@/integrations/supabase/client';
 import type { PostgrestError } from '@supabase/supabase-js';
+
+// Loose-typed client for tables not present in generated types
+const supabase = _supabase as any;
 
 export class ApiError extends Error {
   constructor(
