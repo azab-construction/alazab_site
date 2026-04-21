@@ -28,10 +28,10 @@ const ChatbotFloatingButton: React.FC = () => {
   }, [open]);
 
   return (
-    <div ref={containerRef} className="fixed bottom-6 left-6 z-[60] flex flex-col items-start gap-3">
+    <div ref={containerRef} className="fixed bottom-6 right-6 z-[60] flex flex-col items-end gap-3">
       {/* Popover above the button */}
       {open && (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-200 origin-bottom-left">
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-200 origin-bottom-right">
           <ChatbotPopover onClose={() => setOpen(false)} />
         </div>
       )}
